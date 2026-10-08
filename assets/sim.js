@@ -208,7 +208,7 @@
     if (!L || !R) return null;
     if (e >= st.seconds - 0.2 || (live && !st.running)) {
       return "Both methods met the same route and the same radio conditions. " + L.name + " lost " + L.lost_pct.toFixed(1) + "% of the call, with a longest silence of "
-        + fmtGap(L.longest_gap_ms) + ". Masarain lost " + R.lost_pct.toFixed(1) + "% and sent " + Math.round(R.extra_pct) + "% extra data.";
+        + fmtGap(L.longest_gap_ms) + ". Masarain lost " + R.lost_pct.toFixed(1) + "% and sent " + Math.round(R.extra_pct) + "% extra data as copies.";
     }
     const b = Math.floor(e / trace.bin), a0 = b - 14, a1 = b - 3;
     const lTot = sumRange(L.tot, a0, a1), lLoss = lTot ? 1 - sumRange(L.ok, a0, a1) / lTot : 0;
