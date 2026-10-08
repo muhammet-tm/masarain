@@ -1,0 +1,5 @@
+# Files that are part of the repository or of the local setup, not of the deployed website
+.env*
+.git
+.gitignore
+README.md

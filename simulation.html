@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masarain simulation</title>
+<meta name="description" content="One voice call on one route, carried two ways at the same time: an existing method and Masarain.">
+<meta name="theme-color" content="#0E1116">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/favicon-180.png">
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<header class="wrap site-header">
+  <a class="wordmark" href="index.html"><img src="assets/brand/logo-on-dark.svg" alt="Masarain" width="232" height="34"></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="index.html">Overview</a>
+    <a href="index.html#method">Method</a>
+    <a href="index.html#results">Results</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="sim-head">
+    <div>
+      <h1 class="display" id="title">Simulation</h1>
+      <p class="sub" id="mode">One voice call, one route, two ways of handling a network that fades.</p>
+    </div>
+    <div class="controls">
+      <label class="field">Route
+        <select id="preset"></select>
+      </label>
+      <label class="field">Compare Masarain with
+        <select id="left">
+          <option value="B0">Switch after failure (what devices do today)</option>
+          <option value="B1">Multipath, lowest RTT</option>
+          <option value="B3">Reactive duplication</option>
+          <option value="B2">Full redundancy (a copy of every packet)</option>
+        </select>
+      </label>
+      <button class="btn" id="go" type="button">Start</button>
+      <div class="clock"><span id="clockT">0.0 s</span><small id="clockNote">&nbsp;</small></div>
+    </div>
+  </div>
+
+  <div class="narration" role="status" aria-live="polite">
+    <span class="mono muted">What is happening</span>
+    <p id="caption">Both methods carry the same voice call, 50 packets per second, through the same emulated networks at the same time.</p>
+  </div>
+
+  <div class="scores">
+    <section class="score" aria-labelledby="scoreL">
+      <h2 id="scoreL"><span>Existing method:</span> <b id="nameL">Switch after failure</b></h2>
+      <dl>
+        <div><dd id="lostL">0.0%</dd><dt>of the voice lost or late</dt></div>
+        <div><dd id="gapL">0 ms</dd><dt>longest silence</dt></div>
+        <div><dd id="extraL">0%</dd><dt>extra data sent</dt></div>
+      </dl>
+    </section>
+    <section class="score score--ours" aria-labelledby="scoreR">
+      <h2 id="scoreR">Masarain <span>(forecast-driven, budgeted copies)</span></h2>
+      <dl>
+        <div><dd id="lostR">0.0%</dd><dt>of the voice lost or late</dt></div>
+        <div><dd id="gapR">0 ms</dd><dt>longest silence</dt></div>
+        <div><dd id="extraR">0%</dd><dt>extra data sent</dt></div>
+      </dl>
+    </section>
+  </div>
+
+  <section class="stage" aria-label="The route">
+    <div class="stage-title mono"><span id="routeTitle">The route</span><span id="routeRead"></span></div>
+    <canvas id="route" role="img" aria-label="Map of the route: Wi-Fi access points, the stretches where Wi-Fi loses packets, the caller, and the backup network above."></canvas>
+  </section>
+
+  <section class="stage" aria-label="Timeline of the call">
+    <div class="chart">
+      <div class="chart-labels">
+        <div class="lane-sig"><b>Wi-Fi signal</b><span>what the device measures</span></div>
+        <div class="lane-risk"><b>Risk of loss</b><span>Masarain's forecast for Wi-Fi</span></div>
+        <div class="lane-tape"><b id="laneL">Switch after failure</b><span>the call as heard</span></div>
+        <div class="lane-tape"><b>Masarain</b><span>the call as heard</span></div>
+        <div class="lane-copy"><b>Second copy</b><span>and the call on the backup</span></div>
+      </div>
+      <canvas id="tl" role="img" aria-label="Timeline with five lanes on one time axis: signal, forecast risk, the existing method's call, Masarain's call, and second copies."></canvas>
+      <div class="chart-read" aria-hidden="true">
+        <div class="lane-sig" id="rdSig"></div>
+        <div class="lane-risk" id="rdRisk"></div>
+        <div class="lane-tape" id="rdL"></div>
+        <div class="lane-tape" id="rdR"></div>
+        <div class="lane-copy" id="rdCopy"></div>
+      </div>
+    </div>
+    <div class="axis"><canvas id="axis" aria-hidden="true"></canvas></div>
+    <div class="transport" id="transport" hidden>
+      <button class="btn btn--quiet" id="restart" type="button">Restart</button>
+      <input type="range" id="scrub" min="0" max="60" step="0.1" value="0" aria-label="Position in the recorded run, in seconds">
+      <span class="mono" id="scrubRead">0.0 s of 60 s</span>
+    </div>
+  </section>
+
+  <div class="legend">
+    <span><i class="k-call"></i>voice delivered in time</span>
+    <span><i class="k-gap"></i>voice lost or late: the listener hears a gap</span>
+    <span><i class="k-risk"></i>forecast risk that Wi-Fi loses packets</span>
+    <span><i class="k-copy"></i>second copy sent on the other network</span>
+    <span><i class="k-zone"></i>Wi-Fi itself is losing packets</span>
+    <span><i class="k-moved"></i>call moved to the backup network</span>
+  </div>
+
+  <p class="sim-foot" id="foot">The prototype is real software: a server, two clients, and <span id="prot">authenticated</span> packets. Only the radio links are emulated; they replay the link traces of the project's simulator.</p>
+</main>
+
+<script src="assets/recorded.js"></script>
+<script src="assets/sim.js"></script>
+</body>
+</html>

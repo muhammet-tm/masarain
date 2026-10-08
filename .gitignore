@@ -1,0 +1,8 @@
+# Vercel's local link to the project (holds the project and account identifiers)
+.vercel
+
+# Never part of the site: keys, environment files (the Vercel CLI writes tokens into .env.local), logs
+*.key
+.env*
+*.log
+node_modules/

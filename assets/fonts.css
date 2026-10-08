@@ -1,0 +1,4 @@
+/* Generated: one rule per font file of the site. */
+@font-face { font-family: "Big Shoulders Display"; src: url("../fonts/big-shoulders-display-latin.woff2") format("woff2"); font-weight: 800 900; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("../fonts/archivo-latin.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("../fonts/martian-mono-latin.woff2") format("woff2"); font-weight: 400 600; font-display: swap; }
