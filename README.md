@@ -25,4 +25,4 @@ Big Shoulders Display, Archivo, and Martian Mono, each distributed under the SIL
 
 ## Team
 
-Muhammet Yalkapov, Sulaymon Sadullo, and Ahmed Mohamed Almeheiri, Abu Dhabi University.
+Muhammet Yalkapov, Sulaymon Sadullo, and Ahmed Mohamed Almheiri, Abu Dhabi University.
