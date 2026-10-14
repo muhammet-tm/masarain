@@ -246,3 +246,118 @@ select { font: inherit; font-size: 0.9rem; min-height: 46px; padding: 0 12px; mi
   html { scroll-behavior: auto; }
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-delay: 0ms !important; }
 }
+
+/* ---------------------------------------------------------------- reference materials (materials.html)
+   Rules for the reference page only. They use the tokens above. */
+.site-nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 5px; }
+.page-head { padding-top: var(--s-4); padding-bottom: var(--s-5); }
+.page-head h1 { font-size: var(--step-3); margin-bottom: var(--s-3); }
+.page-head .lede + .prose { margin-top: var(--s-2); }
+.materials .label { margin: 0; font-family: var(--font-body); font-size: 0.94rem; font-weight: 700; line-height: 1.55; }
+.materials .prose a, .toc a, .subnav a, .defs a { text-underline-offset: 5px; }
+
+/* contents: eight entries, read down the first column and then down the second */
+.toc { margin-top: var(--s-5); }
+.toc ol { counter-reset: entry; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, auto);
+          grid-auto-flow: column; column-gap: var(--s-6); margin-top: var(--s-2); }
+.toc li { counter-increment: entry; display: grid; grid-template-columns: 2.2rem minmax(0, 1fr); column-gap: var(--s-2);
+          align-content: start; padding: var(--s-2) 0; border-bottom: 1px solid var(--rule); }
+.toc li:first-child, .toc li:nth-child(5) { border-top: 1px solid var(--rule); }
+.toc li::before { content: counter(entry); grid-row: 1 / span 2; font-family: var(--font-display); font-weight: 900; font-stretch: 75%;
+                  font-size: var(--step-2); line-height: 1.1; }
+.toc li a { justify-self: start; font-weight: 700; }
+.toc li span { color: var(--ink-2); font-size: 0.94rem; text-wrap: pretty; }
+.subnav { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-4); font-size: 0.94rem; font-weight: 700; }
+.subnav span { font-weight: 400; color: var(--ink-2); }
+
+/* sections and the blocks inside them */
+.materials .section h2 { max-width: 30ch; }
+.materials .section-head .prose + .prose { margin-top: 0; }
+.materials .section-head:last-child { margin-bottom: 0; }
+.materials .block + .block { margin-top: var(--s-6); }
+.materials .block > * + * { margin-top: var(--s-3); }
+.materials .block > * + .label, .materials .block > .table-scroll + * { margin-top: var(--s-4); }
+.materials .block > h3 + .label { margin-top: var(--s-3); }
+.materials .block > .label + * { margin-top: var(--s-1); }
+
+/* tables: a small table keeps the measure of the lists, a wide one takes the full width */
+.table-scroll:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.materials .table-scroll { max-width: 78ch; }
+.materials .table-scroll--wide { max-width: none; }
+.data-table--wide { min-width: 0; }
+.materials .data-table { border-collapse: separate; border-spacing: 0; }
+.materials .data-table caption > span { display: block; }
+.materials .data-table caption > span.scroll-hint { display: none; margin-top: 2px; font-size: 0.86rem; font-weight: 400; color: var(--ink-2); }
+.materials .data-table td { font-size: 0.86rem; }
+/* a number with fewer decimals than its column keeps the width of the missing digits, so that the points align */
+.materials .data-table td.pad-1::after { content: "0"; visibility: hidden; }
+.materials .data-table td.pad-2::after { content: "00"; visibility: hidden; }
+.materials .data-table thead th { white-space: normal; vertical-align: bottom; text-wrap: balance; }
+.materials .data-table thead th.text { text-align: left; }
+.materials .data-table tbody th { font-weight: 400; }
+.materials .data-table tbody tr:last-child th { border-bottom: 1px solid var(--rule); }
+.materials .data-table tr.ours th { color: var(--call); font-weight: 600; }
+.materials .data-table tr.reason td:last-child { min-width: 16rem; text-align: left; white-space: normal; font-family: var(--font-body);
+                                                 font-size: inherit; }
+/* the main comparison: every block opens with the name of its scenario and repeats the column headings */
+.materials .data-table tr.group th { border-top: 3px solid var(--ink); vertical-align: bottom; white-space: normal; text-wrap: balance;
+                                     font-size: 0.86rem; font-weight: 700; color: var(--ink-2); }
+.materials .data-table tr.group th:first-child { font-size: var(--step-0); color: var(--ink); }
+/* shares of the width for the seven columns of figures; the names in the first column take the rest */
+.materials .data-table tr.group th:nth-child(2) { width: 17%; }
+.materials .data-table tr.group th:nth-child(3), .materials .data-table tr.group th:nth-child(5) { width: 11%; }
+.materials .data-table tr.group th:nth-child(4) { width: 12%; }
+.materials .data-table tr.group th:nth-child(6), .materials .data-table tr.group th:nth-child(8) { width: 10%; }
+.materials .data-table tr.group th:nth-child(7) { width: 9%; }
+.materials .data-table tbody + tbody::before { content: ""; display: table-row; height: var(--s-5); }
+
+/* lists of terms: the definitions, the key to the scenarios, and the points of the method and of the plan */
+.defs { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 78ch; margin: 0; }
+.defs > div { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 2px var(--s-4); padding: var(--s-2) 0;
+              border-top: 1px solid var(--rule); }
+.defs > div:last-child { border-bottom: 1px solid var(--rule); }
+.defs dt { font-weight: 700; }
+.defs dd { margin: 0; color: var(--ink-2); text-wrap: pretty; }
+.defs--plain > div { grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); }
+.defs--plain dd { color: var(--ink); }
+.defs--key { max-width: none; }
+.defs--key > div { grid-template-columns: minmax(0, 16.5rem) minmax(0, 1fr); column-gap: var(--s-3); align-items: baseline; }
+.defs--key dd { font-size: 0.86rem; }
+
+.files a, .refs a { display: block; overflow-wrap: anywhere; }
+.files span { display: block; margin-top: 4px; }
+.refs a { margin-top: 4px; font-family: var(--font-mono); font-size: 0.86rem; color: var(--ink-2); text-underline-offset: 4px; }
+.file-note, .link-row { margin-top: var(--s-3); }
+.quote { margin: 0; padding-left: var(--s-3); border-left: 3px solid var(--ink); max-width: 78ch; }
+
+/* On a wide screen the names in the first column of a table stay on one line. */
+@media (min-width: 1040px) {
+  .materials .data-table tbody th[scope="row"] { white-space: nowrap; }
+}
+/* Where a table is wider than its box, the box scrolls sideways and the page does not: the right edge of the box is
+   drawn, a line under the caption says so, and the first column stays in place, except in a table that ends with a
+   column of sentences. Below each of the two widths the table is always wider than its box, so the edge never
+   shows without a reason. */
+@media (max-width: 899px) {
+  .toc ol { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; grid-auto-flow: row; }
+  .toc li:nth-child(5) { border-top: 0; }
+  .materials .table-scroll--wide { border-right: 1px solid var(--contour); }
+  .materials .table-scroll--wide .data-table { min-width: 830px; }
+  .materials .table-scroll--wide .data-table caption > span { position: sticky; left: 0; max-width: calc(100vw - 2 * var(--gutter) - 20px); }
+  .materials .table-scroll--wide .data-table caption > span.scroll-hint { display: block; }
+  .materials .table-scroll--wide .data-table:not(.data-table--text) tr > :first-child {
+    position: sticky; left: 0; z-index: 1; width: 8.5rem; min-width: 8.5rem; padding-right: var(--s-2); background: var(--ground);
+    border-right: 1px solid var(--contour); }
+  .materials .table-scroll--wide .data-table:not(.data-table--text) tr > :nth-child(2) { padding-left: var(--s-2); }
+}
+@media (max-width: 620px) {
+  .defs > div, .defs--plain > div, .defs--key > div { grid-template-columns: minmax(0, 1fr); }
+  .materials .table-scroll { border-right: 1px solid var(--contour); }
+  .materials .table-scroll:not(.table-scroll--wide) .data-table { min-width: 600px; }
+  .materials .table-scroll .data-table caption > span { position: sticky; left: 0; max-width: calc(100vw - 2 * var(--gutter) - 20px); }
+  .materials .table-scroll .data-table caption > span.scroll-hint { display: block; }
+  .materials .table-scroll:not(.table-scroll--wide) .data-table:not(.data-table--text) tr > :first-child {
+    position: sticky; left: 0; z-index: 1; width: 7.5rem; min-width: 7.5rem; padding-right: var(--s-2); background: var(--ground);
+    border-right: 1px solid var(--contour); }
+  .materials .table-scroll:not(.table-scroll--wide) .data-table:not(.data-table--text) tr > :nth-child(2) { padding-left: var(--s-2); }
+}

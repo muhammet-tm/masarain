@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Masarain: reference materials</title>
+<meta name="description" content="Reference materials for the Masarain entry: the results for every scenario and mechanism, the data files, the method, the plan for the test on real networks, and the references.">
+<meta name="theme-color" content="#0E1116">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/favicon-180.png">
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<header class="wrap site-header">
+  <a class="wordmark" href="index.html"><img src="assets/brand/logo-on-dark.svg" alt="Masarain" width="232" height="34"></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="index.html">Overview</a>
+    <a href="index.html#method">Method</a>
+    <a href="index.html#results">Results</a>
+    <a href="materials.html" aria-current="page">Materials</a>
+    <a class="btn" href="simulation.html">Open the simulation</a>
+  </nav>
+</header>
+
+<main class="materials">
+<section class="page-head">
+  <div class="wrap">
+    <h1 class="display">Reference materials</h1>
+    <p class="lede">This page holds the material behind the Masarain entry for the EDGE challenge of Advanced Technology Pioneers 2026.</p>
+    <p class="prose">This page is an addition to the application, which the team submitted on 11 October 2026. Its tables give the detail behind the figures of the deck, and the claims of the deck and the video are unchanged.</p>
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 class="label" id="toc-title">Contents</h2>
+      <ol>
+        <li><a href="#results">Results by scenario</a><span>The tables cover every mechanism in every scenario, the paired differences, the ablation, the forecaster on its own, and the prototype against the simulator.</span></li>
+        <li><a href="#files">Data files</a><span>Two files give the main comparison and the ablation as comma-separated text.</span></li>
+        <li><a href="#method">Method in brief</a><span>This list describes the simulator, the traffic, the pairing of runs, and the statistics.</span></li>
+        <li><a href="#field-test">Plan for the test on real networks</a><span>The plan gives the setup, the checks, and the measurement runs. The team has not run this test.</span></li>
+        <li><a href="#deck">Deck and simulation</a><span>The deck with motion and the recorded simulation open from this section.</span></li>
+        <li><a href="#references">References</a><span>The references of the deck are listed with their addresses.</span></li>
+        <li><a href="#ai">Use of AI tools</a><span>The declaration of the deck is repeated word for word.</span></li>
+        <li><a href="#code">Source code</a><span>The code is available to the organizers on request.</span></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<section class="section" id="results">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Results by scenario</h2>
+      <p class="prose muted">Eight mechanisms ran on the same link traces in six scenarios, with 30 random seeds per scenario. In the first table, each figure is a mean over the 30 runs of a scenario, and its first block weights the six scenarios equally.</p>
+      <p class="prose muted">Every result comes from the packet-level simulator or from the prototype over emulated links. No result on this page comes from a real radio network. The link models are synthetic and many parameters are assumptions; the <a href="index.html#limits">limits of this work</a> are listed on the overview page.</p>
+      <nav class="subnav" aria-label="Parts of this section">
+        <span>In this section</span>
+        <a href="#main-comparison">Main comparison</a>
+        <a href="#paired">Masarain against each other mechanism</a>
+        <a href="#ablation">What each part contributes</a>
+        <a href="#forecaster">The forecaster on its own</a>
+        <a href="#prototype">The prototype against the simulator</a>
+      </nav>
+    </div>
+
+    <div class="block">
+      <h3 id="main-comparison">Main comparison</h3>
+      <h4 class="label">Scenarios</h4>
+      <dl class="defs defs--key">
+        <div><dt><a href="#scenario-all-six-scenarios-weighted-equally">All six scenarios, weighted equally</a></dt><dd>Mean and 95% interval over 30 seeds.</dd></div>
+        <div><dt><a href="#scenario-t1-campus-walk">T1 campus walk</a></dt><dd>Paths (preferred, backup): Wi-Fi, 5G. Movement: 1.4 m/s, out and back. Stresses: gradual Wi-Fi loss, roaming. Runs: 30 of 300&nbsp;s each.</dd></div>
+        <div><dt><a href="#scenario-t1-campus-drive">T1 campus drive</a></dt><dd>Paths (preferred, backup): Wi-Fi, 5G. Movement: 8 m/s. Stresses: short visits to Wi-Fi cells. Runs: 30 of 180&nbsp;s each.</dd></div>
+        <div><dt><a href="#scenario-t2-rural-drive">T2 rural drive</a></dt><dd>Paths (preferred, backup): 5G, satellite. Movement: 20 m/s. Stresses: handovers, coverage holes. Runs: 30 of 300&nbsp;s each.</dd></div>
+        <div><dt><a href="#scenario-t3-remote-base">T3 remote base</a></dt><dd>Paths (preferred, backup): Wi-Fi, satellite. Movement: 1.4 m/s. Stresses: satellite as the only backup. Runs: 30 of 300&nbsp;s each.</dd></div>
+        <div><dt><a href="#scenario-t4-undock">T4 undock</a></dt><dd>Paths (preferred, backup): Wired, Wi-Fi. Movement: cable pulled. Stresses: loss with no warning at all. Runs: 30 of 240&nbsp;s each.</dd></div>
+        <div><dt><a href="#scenario-t5-vehicle-link">T5 vehicle link</a></dt><dd>Paths (preferred, backup): Satellite, 5G. Movement: 20 m/s. Stresses: reconfigurations on the main link. Runs: 30 of 300&nbsp;s each.</dd></div>
+      </dl>
+      <div class="table-scroll table-scroll--wide" role="region" aria-labelledby="cap-main" tabindex="0">
+        <table class="data-table data-table--wide">
+          <caption id="cap-main"><span>Main comparison: every mechanism in every scenario, mean over 30 runs</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
+          <tbody>
+            <tr class="group" id="scenario-all-six-scenarios-weighted-equally"><th scope="rowgroup">All six scenarios, weighted equally</th><th scope="col">Voice packets lost or late,&nbsp;% (mean ±&nbsp;95% interval)</th><th scope="col">Seconds with degraded audio,&nbsp;%</th><th scope="col">Gaps of 200&nbsp;ms or more, per minute</th><th scope="col">Telemetry deadline misses,&nbsp;%</th><th scope="col">Extra data sent as copies,&nbsp;%</th><th scope="col">Keepalive probes,&nbsp;%</th><th scope="col">All data on the backup network,&nbsp;%</th></tr>
+            <tr><th scope="row">Switch after failure</th><td>5.25 ± 0.23</td><td>14.7</td><td>2.78</td><td>5.08</td><td>0.0</td><td>0.0</td><td>20</td></tr>
+            <tr><th scope="row">Multipath, lowest RTT</th><td>2.50 ± 0.13</td><td>11.7</td><td>0.47</td><td>2.33</td><td>0.0</td><td>6.5</td><td>36</td></tr>
+            <tr><th scope="row">Adaptive error correction</th><td>1.68 ± 0.09</td><td>8.1</td><td>0.45</td><td>2.33</td><td>8.2</td><td>6.5</td><td>38</td></tr>
+            <tr><th scope="row">Signal-threshold duplication</th><td>0.81 ± 0.07</td><td>3.9</td><td>0.26</td><td>0.60</td><td>13.2</td><td>5.6</td><td>51</td></tr>
+            <tr><th scope="row">Reactive duplication</th><td>0.57 ± 0.06</td><td>2.5</td><td>0.16</td><td>0.44</td><td>43.7</td><td>3.6</td><td>69</td></tr>
+            <tr><th scope="row">Full redundancy</th><td>0.40 ± 0.06</td><td>1.9</td><td>0.11</td><td>0.32</td><td>81.2</td><td>1.2</td><td>98</td></tr>
+            <tr class="ours"><th scope="row">Masarain</th><td>0.65 ± 0.07</td><td>2.4</td><td>0.27</td><td>0.55</td><td>14.0</td><td>5.6</td><td>55</td></tr>
+            <tr><th scope="row">Perfect foresight (bound)</th><td>0.40 ± 0.06</td><td>1.9</td><td>0.11</td><td>0.32</td><td>2.1</td><td>6.1</td><td>38</td></tr>
+          </tbody>
+          <tbody>
+            <tr class="group" id="scenario-t1-campus-walk"><th scope="rowgroup">T1 campus walk</th><th scope="col">Voice packets lost or late,&nbsp;% (mean ±&nbsp;95% interval)</th><th scope="col">Seconds with degraded audio,&nbsp;%</th><th scope="col">Gaps of 200&nbsp;ms or more, per minute</th><th scope="col">Telemetry deadline misses,&nbsp;%</th><th scope="col">Extra data sent as copies,&nbsp;%</th><th scope="col">Keepalive probes,&nbsp;%</th><th scope="col">All data on the backup network,&nbsp;%</th></tr>
+            <tr><th scope="row">Switch after failure</th><td>3.81 ± 0.47</td><td>11.7</td><td>1.55</td><td>3.77</td><td>0.0</td><td>0.0</td><td>3</td></tr>
+            <tr><th scope="row">Multipath, lowest RTT</th><td>2.75 ± 0.29</td><td>11.9</td><td>0.13</td><td>2.66</td><td>0.0</td><td>6.6</td><td>10</td></tr>
+            <tr><th scope="row">Adaptive error correction</th><td>1.46 ± 0.18</td><td>6.9</td><td>0.13</td><td>2.66</td><td>8.9</td><td>6.6</td><td>10</td></tr>
+            <tr><th scope="row">Signal-threshold duplication</th><td>0.28 ± 0.01</td><td>0.2</td><td>0.00</td><td>0.25</td><td>16.1</td><td>5.4</td><td>40</td></tr>
+            <tr><th scope="row">Reactive duplication</th><td>0.13 ± 0.01</td><td>0.0</td><td>0.00</td><td>0.14</td><td>53.2</td><td>3.0</td><td>59</td></tr>
+            <tr><th scope="row">Full redundancy</th><td>0.03 ± 0.01</td><td>0.0</td><td>0.00</td><td>0.01</td><td>96.8</td><td>0.2</td><td>100</td></tr>
+            <tr class="ours"><th scope="row">Masarain</th><td>0.25 ± 0.01</td><td>0.1</td><td>0.00</td><td>0.22</td><td>16.4</td><td>5.4</td><td>45</td></tr>
+            <tr><th scope="row">Perfect foresight (bound)</th><td>0.03 ± 0.01</td><td>0.0</td><td>0.00</td><td>0.01</td><td>2.7</td><td>6.1</td><td>12</td></tr>
+          </tbody>
+          <tbody>
+            <tr class="group" id="scenario-t1-campus-drive"><th scope="rowgroup">T1 campus drive</th><th scope="col">Voice packets lost or late,&nbsp;% (mean ±&nbsp;95% interval)</th><th scope="col">Seconds with degraded audio,&nbsp;%</th><th scope="col">Gaps of 200&nbsp;ms or more, per minute</th><th scope="col">Telemetry deadline misses,&nbsp;%</th><th scope="col">Extra data sent as copies,&nbsp;%</th><th scope="col">Keepalive probes,&nbsp;%</th><th scope="col">All data on the backup network,&nbsp;%</th></tr>
+            <tr><th scope="row">Switch after failure</th><td>12.15 ± 0.77</td><td>29.1</td><td>7.93</td><td>12.10</td><td>0.0</td><td>0.0</td><td>38</td></tr>
+            <tr><th scope="row">Multipath, lowest RTT</th><td>5.80 ± 0.38</td><td>30.0</td><td>0.82</td><td>5.64</td><td>0.0</td><td>6.5</td><td>39</td></tr>
+            <tr><th scope="row">Adaptive error correction</th><td>4.14 ± 0.31</td><td>23.9</td><td>0.70</td><td>5.64</td><td>14.7</td><td>6.5</td><td>42</td></tr>
+            <tr><th scope="row">Signal-threshold duplication</th><td>1.25 ± 0.22</td><td>6.7</td><td>0.06</td><td>1.02</td><td>16.4</td><td>5.4</td><td>77</td></tr>
+            <tr><th scope="row">Reactive duplication</th><td>1.00 ± 0.23</td><td>5.4</td><td>0.06</td><td>0.81</td><td>45.3</td><td>3.5</td><td>81</td></tr>
+            <tr><th scope="row">Full redundancy</th><td>0.84 ± 0.22</td><td>4.6</td><td>0.06</td><td>0.66</td><td>65.0</td><td>2.3</td><td>100</td></tr>
+            <tr class="ours"><th scope="row">Masarain</th><td>1.14 ± 0.22</td><td>6.0</td><td>0.06</td><td>0.92</td><td>18.5</td><td>5.3</td><td>83</td></tr>
+            <tr><th scope="row">Perfect foresight (bound)</th><td>0.84 ± 0.22</td><td>4.6</td><td>0.06</td><td>0.66</td><td>5.1</td><td>5.8</td><td>43</td></tr>
+          </tbody>
+          <tbody>
+            <tr class="group" id="scenario-t2-rural-drive"><th scope="rowgroup">T2 rural drive</th><th scope="col">Voice packets lost or late,&nbsp;% (mean ±&nbsp;95% interval)</th><th scope="col">Seconds with degraded audio,&nbsp;%</th><th scope="col">Gaps of 200&nbsp;ms or more, per minute</th><th scope="col">Telemetry deadline misses,&nbsp;%</th><th scope="col">Extra data sent as copies,&nbsp;%</th><th scope="col">Keepalive probes,&nbsp;%</th><th scope="col">All data on the backup network,&nbsp;%</th></tr>
+            <tr><th scope="row">Switch after failure</th><td>7.37 ± 0.49</td><td>19.7</td><td>4.31</td><td>7.00</td><td>0.0</td><td>0.0</td><td>26</td></tr>
+            <tr><th scope="row">Multipath, lowest RTT</th><td>1.53 ± 0.15</td><td>6.2</td><td>0.89</td><td>1.19</td><td>0.0</td><td>6.3</td><td>51</td></tr>
+            <tr><th scope="row">Adaptive error correction</th><td>1.38 ± 0.15</td><td>5.5</td><td>0.87</td><td>1.19</td><td>5.9</td><td>6.3</td><td>53</td></tr>
+            <tr><th scope="row">Signal-threshold duplication</th><td>1.10 ± 0.16</td><td>5.2</td><td>0.65</td><td>0.76</td><td>16.4</td><td>5.4</td><td>73</td></tr>
+            <tr><th scope="row">Reactive duplication</th><td>0.86 ± 0.15</td><td>3.6</td><td>0.51</td><td>0.61</td><td>50.2</td><td>3.1</td><td>83</td></tr>
+            <tr><th scope="row">Full redundancy</th><td>0.54 ± 0.15</td><td>2.1</td><td>0.30</td><td>0.42</td><td>89.3</td><td>0.7</td><td>98</td></tr>
+            <tr class="ours"><th scope="row">Masarain</th><td>0.88 ± 0.16</td><td>2.8</td><td>0.70</td><td>0.72</td><td>17.5</td><td>5.3</td><td>80</td></tr>
+            <tr><th scope="row">Perfect foresight (bound)</th><td>0.54 ± 0.15</td><td>2.2</td><td>0.31</td><td>0.42</td><td>0.9</td><td>6.1</td><td>52</td></tr>
+          </tbody>
+          <tbody>
+            <tr class="group" id="scenario-t3-remote-base"><th scope="rowgroup">T3 remote base</th><th scope="col">Voice packets lost or late,&nbsp;% (mean ±&nbsp;95% interval)</th><th scope="col">Seconds with degraded audio,&nbsp;%</th><th scope="col">Gaps of 200&nbsp;ms or more, per minute</th><th scope="col">Telemetry deadline misses,&nbsp;%</th><th scope="col">Extra data sent as copies,&nbsp;%</th><th scope="col">Keepalive probes,&nbsp;%</th><th scope="col">All data on the backup network,&nbsp;%</th></tr>
+            <tr><th scope="row">Switch after failure</th><td>4.29 ± 0.81</td><td>14.4</td><td>1.25</td><td>4.28</td><td>0.0</td><td>0.0</td><td>3</td></tr>
+            <tr><th scope="row">Multipath, lowest RTT</th><td>2.92 ± 0.43</td><td>14.1</td><td>0.15</td><td>2.90</td><td>0.0</td><td>6.6</td><td>10</td></tr>
+            <tr><th scope="row">Adaptive error correction</th><td>1.45 ± 0.26</td><td>6.3</td><td>0.14</td><td>2.90</td><td>10.3</td><td>6.6</td><td>10</td></tr>
+            <tr><th scope="row">Signal-threshold duplication</th><td>0.43 ± 0.05</td><td>1.8</td><td>0.03</td><td>0.33</td><td>15.9</td><td>5.4</td><td>43</td></tr>
+            <tr><th scope="row">Reactive duplication</th><td>0.18 ± 0.04</td><td>0.4</td><td>0.01</td><td>0.15</td><td>56.4</td><td>2.8</td><td>62</td></tr>
+            <tr><th scope="row">Full redundancy</th><td>0.08 ± 0.04</td><td>0.4</td><td>0.01</td><td>0.05</td><td>96.1</td><td>0.3</td><td>100</td></tr>
+            <tr class="ours"><th scope="row">Masarain</th><td>0.29 ± 0.04</td><td>0.5</td><td>0.05</td><td>0.27</td><td>15.5</td><td>5.5</td><td>49</td></tr>
+            <tr><th scope="row">Perfect foresight (bound)</th><td>0.08 ± 0.04</td><td>0.4</td><td>0.01</td><td>0.05</td><td>2.9</td><td>6.0</td><td>12</td></tr>
+          </tbody>
+          <tbody>
+            <tr class="group" id="scenario-t4-undock"><th scope="rowgroup">T4 undock</th><th scope="col">Voice packets lost or late,&nbsp;% (mean ±&nbsp;95% interval)</th><th scope="col">Seconds with degraded audio,&nbsp;%</th><th scope="col">Gaps of 200&nbsp;ms or more, per minute</th><th scope="col">Telemetry deadline misses,&nbsp;%</th><th scope="col">Extra data sent as copies,&nbsp;%</th><th scope="col">Keepalive probes,&nbsp;%</th><th scope="col">All data on the backup network,&nbsp;%</th></tr>
+            <tr><th scope="row">Switch after failure</th><td>0.68 ± 0.20</td><td>2.6</td><td>0.28</td><td>0.64</td><td>0.0</td><td>0.0</td><td>49</td></tr>
+            <tr><th scope="row">Multipath, lowest RTT</th><td>0.42 ± 0.19</td><td>1.9</td><td>0.03</td><td>0.37</td><td>0.0</td><td>6.7</td><td>53</td></tr>
+            <tr><th scope="row">Adaptive error correction</th><td>0.22 ± 0.04</td><td>0.1</td><td>0.03</td><td>0.37</td><td>3.5</td><td>6.7</td><td>56</td></tr>
+            <tr><th scope="row">Signal-threshold duplication</th><td>0.41 ± 0.19</td><td>1.9</td><td>0.03</td><td>0.37</td><td>1.5</td><td>6.5</td><td>54</td></tr>
+            <tr><th scope="row">Reactive duplication</th><td>0.41 ± 0.19</td><td>1.9</td><td>0.03</td><td>0.36</td><td>5.7</td><td>6.3</td><td>58</td></tr>
+            <tr><th scope="row">Full redundancy</th><td>0.39 ± 0.19</td><td>1.9</td><td>0.03</td><td>0.34</td><td>50.7</td><td>3.3</td><td>100</td></tr>
+            <tr class="ours"><th scope="row">Masarain</th><td>0.41 ± 0.19</td><td>1.9</td><td>0.03</td><td>0.37</td><td>1.5</td><td>6.5</td><td>54</td></tr>
+            <tr><th scope="row">Perfect foresight (bound)</th><td>0.39 ± 0.19</td><td>1.9</td><td>0.03</td><td>0.34</td><td>0.0</td><td>6.6</td><td>53</td></tr>
+          </tbody>
+          <tbody>
+            <tr class="group" id="scenario-t5-vehicle-link"><th scope="rowgroup">T5 vehicle link</th><th scope="col">Voice packets lost or late,&nbsp;% (mean ±&nbsp;95% interval)</th><th scope="col">Seconds with degraded audio,&nbsp;%</th><th scope="col">Gaps of 200&nbsp;ms or more, per minute</th><th scope="col">Telemetry deadline misses,&nbsp;%</th><th scope="col">Extra data sent as copies,&nbsp;%</th><th scope="col">Keepalive probes,&nbsp;%</th><th scope="col">All data on the backup network,&nbsp;%</th></tr>
+            <tr><th scope="row">Switch after failure</th><td>3.23 ± 0.44</td><td>10.9</td><td>1.36</td><td>2.67</td><td>0.0</td><td>0.0</td><td>4</td></tr>
+            <tr><th scope="row">Multipath, lowest RTT</th><td>1.59 ± 0.19</td><td>6.1</td><td>0.83</td><td>1.23</td><td>0.0</td><td>6.3</td><td>55</td></tr>
+            <tr><th scope="row">Adaptive error correction</th><td>1.43 ± 0.18</td><td>5.5</td><td>0.83</td><td>1.23</td><td>6.1</td><td>6.3</td><td>59</td></tr>
+            <tr><th scope="row">Signal-threshold duplication</th><td>1.37 ± 0.16</td><td>7.8</td><td>0.79</td><td>0.85</td><td>13.1</td><td>5.6</td><td>22</td></tr>
+            <tr><th scope="row">Reactive duplication</th><td>0.83 ± 0.16</td><td>3.5</td><td>0.39</td><td>0.57</td><td>51.3</td><td>3.0</td><td>71</td></tr>
+            <tr><th scope="row">Full redundancy</th><td>0.53 ± 0.16</td><td>2.1</td><td>0.27</td><td>0.42</td><td>89.5</td><td>0.7</td><td>92</td></tr>
+            <tr class="ours"><th scope="row">Masarain</th><td>0.93 ± 0.17</td><td>3.2</td><td>0.79</td><td>0.81</td><td>14.6</td><td>5.5</td><td>23</td></tr>
+            <tr><th scope="row">Perfect foresight (bound)</th><td>0.54 ± 0.16</td><td>2.1</td><td>0.28</td><td>0.42</td><td>1.0</td><td>6.1</td><td>55</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4 class="label">Definitions of the measures</h4>
+      <dl class="defs">
+        <div><dt>Voice packets lost or late</dt><dd>The share of voice packets that did not arrive within 80&nbsp;ms of sending. A late packet is as useless to the listener as a lost one, so the two are counted together.</dd></div>
+        <div><dt>Seconds with degraded audio</dt><dd>The share of the seconds of a call in which 5% or more of the voice packets were lost or late.</dd></div>
+        <div><dt>Gaps</dt><dd>Runs of consecutive lost or late voice packets that last 200&nbsp;ms or more, counted per minute of the call.</dd></div>
+        <div><dt>Telemetry deadline misses</dt><dd>The share of telemetry messages that did not arrive within 250&nbsp;ms of sending.</dd></div>
+        <div><dt>Extra data sent as copies</dt><dd>The bytes of second copies and parity packets, as a percentage of the bytes of one copy of the voice and telemetry packets. Probes are not included.</dd></div>
+        <div><dt>Keepalive probes</dt><dd>The bytes of the keepalive probes on the idle path, on the same scale.</dd></div>
+        <div><dt>All data on the backup network</dt><dd>Every byte sent on the backup network (the moved call, the second copies, and the probes), on the same scale. The budget caps copies only: when the third rung of the ladder moves the call, the backup network carries all of it.</dd></div>
+        <div><dt>95% interval</dt><dd>A t-interval over the 30 seeds of a scenario. For the block that covers all scenarios, the six scenarios are averaged for each seed first.</dd></div>
+      </dl>
+      <p class="prose muted">Multipath, lowest RTT sends each packet on the path with the lowest round-trip time (RTT) and sends no copies. Perfect foresight is a bound for comparison. It copies exactly the packets that would otherwise be lost or late. In the T4 undock scenario, Masarain and signal-threshold duplication give identical figures. Both use the same ladder and budget and differ only in the trigger, and a pulled cable gives neither trigger a warning.</p>
+    </div>
+
+    <div class="block">
+      <h3 id="paired">Masarain against each other mechanism</h3>
+      <div class="table-scroll table-scroll--wide" role="region" aria-labelledby="cap-paired" tabindex="0">
+        <table class="data-table data-table--wide">
+          <caption id="cap-paired"><span>Paired differences over all scenarios: Masarain minus the other mechanism, mean ± 95% interval</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
+          <thead><tr>
+            <th scope="col">Masarain minus</th>
+            <th scope="col">Voice packets lost or late, points</th>
+            <th scope="col">Seconds with degraded audio, points</th>
+            <th scope="col">Gaps of 200&nbsp;ms or more, per minute</th>
+            <th scope="col">Telemetry deadline misses, points</th>
+            <th scope="col">Extra data sent as copies, points</th>
+          </tr></thead>
+          <tbody>
+            <tr><th scope="row">Switch after failure</th><td>−4.60 ± 0.22</td><td>−12.3 ± 0.6</td><td>−2.51 ± 0.19</td><td>−4.52 ± 0.23</td><td>+14.0 ± 0.2</td></tr>
+            <tr><th scope="row">Multipath, lowest RTT</th><td>−1.85 ± 0.12</td><td>−9.3 ± 0.5</td><td>−0.21 ± 0.06</td><td>−1.78 ± 0.12</td><td>+14.0 ± 0.2</td></tr>
+            <tr><th scope="row">Adaptive error correction</th><td>−1.03 ± 0.08</td><td>−5.6 ± 0.5</td><td>−0.18 ± 0.06</td><td>−1.78 ± 0.12</td><td>+5.8 ± 0.3</td></tr>
+            <tr><th scope="row">Signal-threshold duplication</th><td>−0.16 ± 0.01</td><td>−1.5 ± 0.1</td><td>+0.01 ± 0.01</td><td>−0.04 ± 0.01</td><td>+0.8 ± 0.2</td></tr>
+            <tr><th scope="row">Reactive duplication</th><td>+0.08 ± 0.01</td><td>−0.1 ± 0.1</td><td>+0.10 ± 0.02</td><td>+0.11 ± 0.02</td><td>−29.7 ± 0.7</td></tr>
+            <tr><th scope="row">Full redundancy</th><td>+0.25 ± 0.01</td><td>+0.6 ± 0.1</td><td>+0.16 ± 0.02</td><td>+0.24 ± 0.02</td><td>−67.2 ± 0.6</td></tr>
+            <tr><th scope="row">Perfect foresight (bound)</th><td>+0.25 ± 0.01</td><td>+0.6 ± 0.1</td><td>+0.16 ± 0.02</td><td>+0.23 ± 0.02</td><td>+11.9 ± 0.2</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose muted">A negative difference means that Masarain has the lower figure. Each difference compares two mechanisms on the same seed and the same random draws, which removes the variation that both share.</p>
+      <p class="prose muted">Signal-threshold duplication uses the same ladder and the same budget as Masarain, and the difference in loss against it is −0.16 ± 0.01 points. A fixed signal threshold inside the same ladder therefore captures most of the gain, and the forecast adds a smaller margin.</p>
+    </div>
+
+    <div class="block">
+      <h3 id="ablation">What each part contributes</h3>
+      <div class="table-scroll table-scroll--wide" role="region" aria-labelledby="cap-ablation" tabindex="0">
+        <table class="data-table data-table--wide">
+          <caption id="cap-ablation"><span>Ablation on the same runs: mean over six scenarios and 30 seeds</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
+          <thead><tr>
+            <th scope="col">Masarain variant</th>
+            <th scope="col">Voice packets lost or late,&nbsp;% (mean ±&nbsp;95% interval)</th>
+            <th scope="col">Seconds with degraded audio,&nbsp;%</th>
+            <th scope="col">Extra data sent as copies,&nbsp;%</th>
+            <th scope="col">Change in loss against the full design, points (paired, ±&nbsp;95% interval)</th>
+          </tr></thead>
+          <tbody>
+            <tr class="ours"><th scope="row">Full design</th><td>0.65 ± 0.07</td><td>2.4</td><td>14.0</td><td>reference</td></tr>
+            <tr><th scope="row">Flat copy price (no budget-aware pricing)</th><td>0.64 ± 0.07</td><td>2.4</td><td>15.9</td><td>−0.01 ± 0.00</td></tr>
+            <tr><th scope="row">No forecast at all (reacts to loss only)</th><td>0.86 ± 0.07</td><td>4.0</td><td>14.1</td><td>+0.21 ± 0.02</td></tr>
+            <tr><th scope="row">No Wi-Fi forecast</th><td>0.69 ± 0.07</td><td>2.6</td><td>14.1</td><td>+0.04 ± 0.01</td></tr>
+            <tr><th scope="row">No 5G forecast</th><td>0.71 ± 0.07</td><td>2.6</td><td>14.2</td><td>+0.06 ± 0.01</td></tr>
+            <tr><th scope="row">No satellite clock</th><td>0.80 ± 0.06</td><td>4.0</td><td>13.6</td><td>+0.15 ± 0.01</td></tr>
+            <tr><th scope="row">No reactive trigger</th><td>0.76 ± 0.08</td><td>3.0</td><td>4.6</td><td>+0.11 ± 0.02</td></tr>
+            <tr><th scope="row">No move of the primary (rung 3)</th><td>0.70 ± 0.07</td><td>2.5</td><td>15.2</td><td>+0.05 ± 0.02</td></tr>
+            <tr><th scope="row">No copies (rung 2)</th><td>1.10 ± 0.09</td><td>5.6</td><td>0.0</td><td>+0.45 ± 0.03</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose muted">Removing the forecast changes loss by +0.21 ± 0.02 points at the same budget. A pulled cable or a sudden obstruction cannot be forecast. In those cases Masarain performs like reactive duplication, which is the limit of the approach.</p>
+    </div>
+
+    <div class="block">
+      <h3 id="forecaster">The forecaster on its own</h3>
+      <p class="prose muted">This evaluation runs the forecaster without the mechanism on the same 180 simulated runs. An alarm is on while the forecast loss probability is 5% or more, which is the threshold at which Masarain starts to copy.</p>
+      <div class="table-scroll" role="region" aria-labelledby="cap-forecast" tabindex="0">
+        <table class="data-table">
+          <caption id="cap-forecast"><span>Disruptions flagged in advance (risk threshold 5%)</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
+          <thead><tr>
+            <th scope="col">Path and event</th>
+            <th scope="col">Events</th>
+            <th scope="col">Flagged in advance,&nbsp;%</th>
+            <th scope="col">Median warning,&nbsp;s</th>
+            <th scope="col">10th percentile of the warning,&nbsp;s</th>
+          </tr></thead>
+          <tbody>
+            <tr><th scope="row">Wi-Fi: coverage lost</th><td>868</td><td>100</td><td class="pad-1">4.6</td><td class="pad-1">0.6</td></tr>
+            <tr><th scope="row">Wi-Fi: roam</th><td>648</td><td>97</td><td class="pad-1">1.3</td><td>0.16</td></tr>
+            <tr><th scope="row">Wi-Fi: onset of loss</th><td>1,083</td><td>92</td><td class="pad-1">0.6</td><td>0.00</td></tr>
+            <tr><th scope="row">5G: handover</th><td>1,827</td><td>97</td><td class="pad-1">1.9</td><td class="pad-1">0.3</td></tr>
+            <tr><th scope="row">5G: failed handover</th><td>50</td><td>98</td><td class="pad-1">2.1</td><td class="pad-1">0.4</td></tr>
+            <tr><th scope="row">5G: coverage hole</th><td>6,582</td><td>99</td><td class="pad-1">1.9</td><td class="pad-1">0.3</td></tr>
+            <tr><th scope="row">5G: onset of loss</th><td>1,791</td><td>89</td><td class="pad-1">1.2</td><td>0.10</td></tr>
+            <tr><th scope="row">Satellite: reconfiguration</th><td>1,787</td><td>100</td><td>0.02</td><td>0.02</td></tr>
+            <tr><th scope="row">Satellite: obstruction</th><td>273</td><td>14</td><td class="pad-1">0.7</td><td>0.15</td></tr>
+            <tr><th scope="row">Satellite: onset of loss</th><td>1,976</td><td>88</td><td>0.02</td><td>0.01</td></tr>
+            <tr><th scope="row">Wired: cable pulled</th><td>30</td><td>0</td><td>none</td><td>none</td></tr>
+            <tr><th scope="row">Wired: onset of loss</th><td>30</td><td>0</td><td>none</td><td>none</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-scroll" role="region" aria-labelledby="cap-alarms" tabindex="0">
+        <table class="data-table">
+          <caption id="cap-alarms"><span>Alarms at the same threshold</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
+          <thead><tr>
+            <th scope="col">Path</th>
+            <th scope="col">Alarm episodes</th>
+            <th scope="col">Alarms not followed by degradation,&nbsp;%</th>
+            <th scope="col">Time under alarm,&nbsp;%</th>
+            <th scope="col">Time degraded,&nbsp;%</th>
+          </tr></thead>
+          <tbody>
+            <tr><th scope="row">Wi-Fi</th><td>4,068</td><td>54</td><td>26.7</td><td>19.8</td></tr>
+            <tr><th scope="row">5G</th><td>4,866</td><td>44</td><td>28.3</td><td>15.6</td></tr>
+            <tr><th scope="row">Satellite</th><td>1,800</td><td>0</td><td>2.0</td><td>3.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4 class="label">Definitions of the forecaster terms</h4>
+      <dl class="defs">
+        <div><dt>Event</dt><dd>A disruption of the simulated link itself, which the forecaster never reads.</dd></div>
+        <div><dt>Flagged in advance</dt><dd>An alarm was on at the start of the event or within the 1.5&nbsp;s before it.</dd></div>
+        <div><dt>Warning</dt><dd>The time from the start of that alarm to the start of the event.</dd></div>
+        <div><dt>Onset of loss</dt><dd>The first moment at which the path is down or its true loss probability reaches the threshold, after at least one second without either.</dd></div>
+        <div><dt>Alarm episode</dt><dd>A run of alarm samples; samples no more than 0.3&nbsp;s apart form one episode. An episode counts as followed by degradation when the path is down, or its true loss probability is at or above the threshold, at some moment from the start of the episode to 1.5&nbsp;s after its end, or when an event is in progress at the start of the episode.</dd></div>
+        <div><dt>Time degraded</dt><dd>The share of time in which the path was down or its true loss probability was at or above the threshold.</dd></div>
+      </dl>
+      <p class="prose muted">The satellite-obstruction row does not show a forecast. Its 14% of flagged events coincide with alarms for a scheduled reconfiguration, and chance alone gives about 12%. A pulled cable gives no warning at all.</p>
+      <p class="prose muted">Early warning has a price: 54% of Wi-Fi alarms and 44% of 5G alarms are not followed by real degradation. The budget keeps those false alarms affordable.</p>
+    </div>
+
+    <div class="block">
+      <h3 id="prototype">The prototype against the simulator</h3>
+      <p class="prose muted">The prototype is real software: a client and a server with an encrypted packet format, real timers, and the same policy module as the simulator. A relay between them replays the simulator's link trace. It implements five of the eight mechanisms. A tethered laptop cannot see the signal readings of the 5G modem, so the prototype forecasts Wi-Fi only and reacts on 5G. The simulator runs of this comparison are set the same way: they forecast Wi-Fi only, and their signal readings carry no calibration error. The comparison covers one trace of 298&nbsp;s on the campus walk, so it checks the software against the simulator and says nothing about real radio links.</p>
+      <div class="table-scroll table-scroll--wide" role="region" aria-labelledby="cap-xcheck" tabindex="0">
+        <table class="data-table data-table--wide">
+          <caption id="cap-xcheck"><span>The real prototype over emulated links against the simulator (campus walk, one 298&nbsp;s trace)</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
+          <thead><tr>
+            <th scope="col">Mechanism</th>
+            <th scope="col">Prototype: lost or late,&nbsp;%</th>
+            <th scope="col">Prototype: copies,&nbsp;%</th>
+            <th scope="col">Simulator: lost or late,&nbsp;% (mean ± standard deviation)</th>
+            <th scope="col">Simulator: copies,&nbsp;%</th>
+            <th scope="col">Longest pause of the sender,&nbsp;ms</th>
+          </tr></thead>
+          <tbody>
+            <tr><th scope="row">Switch after failure</th><td>1.71</td><td>0</td><td>1.80 ± 0.08</td><td>0</td><td>98.6</td></tr>
+            <tr><th scope="row">Multipath, lowest RTT</th><td>1.54</td><td>0</td><td>1.60 ± 0.10</td><td>0</td><td>104.5</td></tr>
+            <tr><th scope="row">Reactive duplication</th><td>0.13</td><td>57</td><td>0.12 ± 0.02</td><td>53</td><td>35.9</td></tr>
+            <tr><th scope="row">Full redundancy</th><td>0.00</td><td>100</td><td>0.01 ± 0.01</td><td>99</td><td>36.3</td></tr>
+            <tr class="ours"><th scope="row">Masarain</th><td>0.29</td><td>17</td><td>0.24 ± 0.03</td><td>16</td><td>38.6</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose muted">Both sides cover the same part of the trace and use the same 80&nbsp;ms deadline. The simulator column is the mean and standard deviation over 30 runs that redraw only the per-packet random numbers, because the emulator and the simulator do not share them. Every prototype result lies within two standard deviations of the simulator.</p>
+      <p class="prose muted">Two runs in which the laptop paused were set aside and repeated. A run is set aside when the client's own sending log shows a pause of more than 0.2&nbsp;s in its 20&nbsp;ms schedule, or fewer voice packets than the schedule holds. The test reads the sending schedule and never the result, and the longest pause in a reported run was 104.5&nbsp;ms. The team added the rule on 8 October 2026, after these runs had been disturbed, so the rule was not fixed in advance.</p>
+      <div class="table-scroll table-scroll--wide" role="region" aria-labelledby="cap-aside" tabindex="0">
+        <table class="data-table data-table--wide data-table--text">
+          <caption id="cap-aside"><span>Runs set aside and repeated</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
+          <thead><tr><th scope="col">Mechanism</th><th scope="col">Pause of the sender,&nbsp;s</th><th scope="col">Voice packets sent</th><th scope="col">Lost or late if kept,&nbsp;%</th><th scope="col" class="text">Recorded reason</th></tr></thead>
+          <tbody>
+            <tr class="reason"><th scope="row">Full redundancy</th><td>107.87</td><td>11,542 of 14,900</td><td>0.31</td><td>The lid was closed and Windows entered standby at 10:41:45, as its power log shows.</td></tr>
+            <tr class="reason"><th scope="row">Full redundancy</th><td>0.56</td><td>14,900 of 14,900</td><td>0.03</td><td>The machine paused while the client was sending; four packets arrived about 0.6&nbsp;s late together.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose muted">Kept, each of these results would lie outside two standard deviations of the simulator.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--panel" id="files">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Data files</h2>
+      <p class="prose muted">Two files hold the figures of the main comparison and of the ablation in a form that a spreadsheet or a script can read. The ablation file also gives each scenario, which the table above does not. Both are plain comma-separated text with one header row.</p>
+    </div>
+    <ul class="limits files">
+      <li><a class="text-link" href="files/masarain_main_comparison.csv" download>masarain_main_comparison.csv</a><span class="muted">56 rows: every mechanism in every scenario, and the means over all scenarios. Each of the six measures is followed by its interval, and the last column gives all data on the backup network.</span></li>
+      <li><a class="text-link" href="files/masarain_ablation.csv" download>masarain_ablation.csv</a><span class="muted">63 rows: the nine variants of Masarain in every scenario and over all scenarios, with the same measures and the paired change in voice loss against the full design. The two change columns are empty for the full design, which is the reference.</span></li>
+    </ul>
+    <p class="prose muted file-note">The names of the scenarios, mechanisms, and measures are those of this page. Each interval column gives the half-width of the 95% interval of the column before it.</p>
+  </div>
+</section>
+
+<section class="section" id="method">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Method in brief</h2>
+    </div>
+    <dl class="defs defs--plain">
+      <div><dt>Simulator</dt><dd>The simulator is a packet-level engine written for this project. It replays six mobility scenarios on a 10&nbsp;ms link grid, and Wi-Fi, 5G, satellite, and wired links each have their own failure model.</dd></div>
+      <div><dt>Traffic</dt><dd>The traffic is a G.711 voice call of 50 packets per second and a telemetry stream of 10 messages per second.</dd></div>
+      <div><dt>Paired runs</dt><dd>Every mechanism meets the same link traces and the same random draws for loss and jitter in each run, so a difference between two mechanisms comes from the mechanisms.</dd></div>
+      <div><dt>Statistics</dt><dd>Each scenario runs with 30 random seeds. Results are means with 95% intervals over the seeds, and comparisons are paired differences on the same seeds. The one choice tuned on data, the price of a copy as the budget drains, was made on separate development seeds.</dd></div>
+      <div><dt>Forecaster</dt><dd>The forecaster reads only what a device can observe. In the simulator it never reads the true link state, and its signal readings carry a calibration error.</dd></div>
+      <div><dt>Escalation ladder</dt><dd>The escalation ladder is one module, and the simulator and the prototype client both import it.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="section" id="field-test">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Plan for the test on real networks</h2>
+      <p class="prose">The team has not run this test. It used emulated links for the submission and prepared the plan below as the next step.</p>
+    </div>
+    <div class="block">
+      <dl class="defs defs--plain">
+        <div><dt>Purpose</dt><dd>The test has two purposes: to show that the prototype runs on real hardware, and to measure the curve from Wi-Fi signal to packet loss for the test laptop. The measured curve replaces the assumed curve in the forecaster.</dd></div>
+        <div><dt>Setup</dt><dd>Wi-Fi from a phone that serves as a hotspot at a fixed spot is the preferred path, and 5G through a second phone tethered by USB is the backup path. A Windows laptop runs the client. A Linux server with a public address, which both networks can reach, runs the server. Where possible the two phones use different operators, so that the two paths do not share one cell tower.</dd></div>
+        <div><dt>Checks</dt><dd>These checks must pass before any measurement. Both network interfaces stay up together and reach the server. The Wi-Fi signal reader delivers about 50 or more readings in 5 seconds, because the forecaster needs about 10 readings per second. The self-test of every mechanism passes. The clock of the laptop is correct, because the server drops packets whose timestamp is more than 120 seconds from its own clock. A smoke test of 30 seconds shows both paths at the client, no forged or stale packets at the server, and about 50 voice packets per second.</dd></div>
+        <div><dt>Calibration</dt><dd>The calibration consists of three walks of 180 seconds that leave Wi-Fi coverage and return. They measure the loss at each signal level and the signal at which the adapter gives up the link.</dd></div>
+        <div><dt>Measurement</dt><dd>The measurement consists of 85 runs of 120 seconds with the five mechanisms that the prototype implements: switch after failure; multipath, lowest RTT; reactive duplication; full redundancy; and Masarain. The order of the mechanisms rotates from one block of runs to the next, as in a Latin square, so that no mechanism always runs early or always runs late in a session.</dd></div>
+      </dl>
+      <div class="table-scroll" role="region" aria-labelledby="cap-field" tabindex="0">
+        <table class="data-table data-table--text">
+          <caption id="cap-field"><span>Measurement runs of the plan</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
+          <thead><tr><th scope="col">Test</th><th scope="col">Runs</th><th scope="col">Runs per mechanism</th><th scope="col" class="text">What happens</th></tr></thead>
+          <tbody>
+            <tr class="reason"><th scope="row">Walk (gradual loss)</th><td>40</td><td>8</td><td>The walker starts near the hotspot, walks out of Wi-Fi coverage, waits outside, and walks back.</td></tr>
+            <tr class="reason"><th scope="row">Cut (sudden loss)</th><td>25</td><td>5</td><td>The laptop stands still near the hotspot while a helper switches the hotspot off and, later in the run, on again.</td></tr>
+            <tr class="reason"><th scope="row">Edge (weak, stable signal)</th><td>20</td><td>4</td><td>The laptop stands still at a spot where the Wi-Fi link loses about 5 to 20% of its packets.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <dl class="defs defs--plain">
+        <div><dt>Analysis</dt><dd>The analysis reports, for each run, the voice packets lost or late, the telemetry deadline misses, the longest gap, and the extra data sent as copies. The clocks of the laptop and the server are not synchronized, so a packet counts as late in relation to the fastest delivery of its run.</dd></div>
+        <div><dt>Pass conditions</dt><dd>The plan sets pass conditions for the checks and none for the results. With four to eight runs per mechanism and test, the samples are small. The team will therefore report the results as a feasibility check beside the simulation, and the simulation remains the main evidence.</dd></div>
+        <div><dt>Exclusions</dt><dd>The team deletes no run. It notes unusual events for each run, decides every exclusion afterward, and reports it.</dd></div>
+        <div><dt>Scope</dt><dd>The plan covers walking only. The drive scenarios stay in the simulator.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section section--panel" id="deck">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Deck and simulation</h2>
+    </div>
+    <div class="steps">
+      <div>
+        <h3>The deck with motion</h3>
+        <p class="muted">This version shows the ten slides of the deck with motion added. It is a separate file beside the PDF of the application and shows the same slides. To move forward, press the Right arrow key or click the slide. To move back, press the Left arrow key.</p>
+        <p class="link-row"><a class="btn btn--quiet" href="deck.html">Open the deck with motion</a></p>
+      </div>
+      <div id="simulation">
+        <h3>The recorded simulation</h3>
+        <p class="muted">The simulation page replays four recorded runs of the prototype over emulated links, one for each route. In each run, switch after failure and Masarain carry the same voice call at the same time. The runs were recorded on 8 October 2026.</p>
+        <p class="link-row"><a class="btn btn--quiet" href="simulation.html">Open the simulation</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="references">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">References</h2>
+      <p class="prose muted">These are the 11 references of the deck, numbered and worded as on slide 10. Each address was checked against its citation on 13 October 2026, on the page itself or in the record of its digital object identifier (DOI).</p>
+    </div>
+    <ol class="limits refs">
+      <li id="ref-1">[1] A. Ford et al., "TCP extensions for multipath operation with multiple addresses," RFC 8684, 2020.<a href="https://www.rfc-editor.org/info/rfc8684" rel="noopener noreferrer">https://www.rfc-editor.org/info/rfc8684</a></li>
+      <li id="ref-2">[2] C. Paasch et al., "Experimental evaluation of multipath TCP schedulers," ACM SIGCOMM CSWS, 2014.<a href="https://doi.org/10.1145/2630088.2631977" rel="noopener noreferrer">https://doi.org/10.1145/2630088.2631977</a></li>
+      <li id="ref-3">[3] A. Frömmgen et al., "ReMP TCP: Low latency multipath TCP," IEEE ICC, 2016.<a href="https://doi.org/10.1109/ICC.2016.7510787" rel="noopener noreferrer">https://doi.org/10.1109/ICC.2016.7510787</a></li>
+      <li id="ref-4">[4] D. Segura, E. J. Khatib, and R. Barco, "Dynamic packet duplication for industrial URLLC," Sensors, vol. 22, no. 2, 2022.<a href="https://doi.org/10.3390/s22020587" rel="noopener noreferrer">https://doi.org/10.3390/s22020587</a></li>
+      <li id="ref-5">[5] H.-W. Kao and E. H.-K. Wu, "AI-driven conditional handover for 5G URLLC," TechRxiv preprint, 2025.<a href="https://doi.org/10.36227/techrxiv.174961891.14378325/v1" rel="noopener noreferrer">https://doi.org/10.36227/techrxiv.174961891.14378325/v1</a></li>
+      <li id="ref-6">[6] T. Shreedhar et al., "Media-over-multipath-QUIC for realtime video applications," arXiv:2608.10741, 2026.<a href="https://arxiv.org/abs/2608.10741" rel="noopener noreferrer">https://arxiv.org/abs/2608.10741</a></li>
+      <li id="ref-7">[7] C. S. Alvarez-Merino et al., "Data-driven adaptive resource allocation for reliable low-latency uplink communications in rural cellular 5G multi-connectivity," arXiv:2604.24352, 2026.<a href="https://arxiv.org/abs/2604.24352" rel="noopener noreferrer">https://arxiv.org/abs/2604.24352</a></li>
+      <li id="ref-8">[8] T. Tsubaki et al., "Scheduler-agnostic adaptive-FEC for MPQUIC: Field evaluation over commercial cellular paths," arXiv:2607.14482, 2026.<a href="https://arxiv.org/abs/2607.14482" rel="noopener noreferrer">https://arxiv.org/abs/2607.14482</a></li>
+      <li id="ref-9">[9] H. B. Tanveer et al., "Making sense of constellations: Methodologies for understanding Starlink's scheduling algorithms," ACM CoNEXT Companion, 2023.<a href="https://doi.org/10.1145/3624354.3630586" rel="noopener noreferrer">https://doi.org/10.1145/3624354.3630586</a></li>
+      <li id="ref-10">[10] A. Casparsen et al., "Statistical characterization and prediction of E2E latency over LEO satellite networks," npj Wireless Technology, 2026.<a href="https://doi.org/10.1038/s44459-026-00044-z" rel="noopener noreferrer">https://doi.org/10.1038/s44459-026-00044-z</a></li>
+      <li id="ref-11">[11] ITU-T Rec. G.107, "The E-model: A computational model for use in transmission planning," 2015.<a href="https://www.itu.int/rec/T-REC-G.107-201506-I/en" rel="noopener noreferrer">https://www.itu.int/rec/T-REC-G.107-201506-I/en</a></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="ai">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Use of AI tools</h2>
+      <p class="prose muted">Slide 10 of the deck carries this declaration:</p>
+    </div>
+    <blockquote class="quote">Anthropic's Claude (Claude Code) wrote the simulator and prototype code, ran the analysis, and drafted this deck, and it assisted the team in the literature search and the design of the mechanism. The team chose the challenge, the approach, and the name, and it is responsible for the literature search, the design of the mechanism, and the submission.</blockquote>
+  </div>
+</section>
+
+<section class="section" id="code">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Source code</h2>
+      <p class="prose">The source code of the simulator and the prototype is available to the organizers of Advanced Technology Pioneers 2026 on request.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap site-footer">
+  <p>Masarain (<span lang="ar" dir="rtl">مسارين</span>) is Arabic for "two paths". Entry for Advanced Technology Pioneers 2026, EDGE challenge.</p>
+  <p>Declaration of AI use: Anthropic's Claude (Claude Code) wrote the simulator and prototype code, ran the analysis, and drafted this site, and it assisted the team in the literature search and the design of the mechanism. The team chose the challenge, the approach, and the name, and it is responsible for the literature search, the design of the mechanism, and the submission.</p>
+</footer>
+
+</body>
+</html>
