@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Masarain: two paths, one call</title>
-<meta name="description" content="Masarain forecasts a failing network and sends a second copy of each critical packet over the backup network for those seconds only, inside a data budget.">
+<meta name="description" content="Masarain forecasts a failing network and, for those seconds only, sends a second copy of each packet with a deadline over the backup network, inside a data budget.">
 <meta name="theme-color" content="#0E1116">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/brand/favicon-180.png">
@@ -19,6 +19,7 @@
   <nav class="site-nav" aria-label="Sections">
     <a href="#problem">Problem</a>
     <a href="#solution">Solution</a>
+    <a href="#networks">Networks</a>
     <a href="#method">Method</a>
     <a href="#results">Results</a>
     <a href="#team">Team</a>
@@ -34,7 +35,7 @@
       <div class="hero-copy">
         <p class="mono">Outlook for this route, issued every 100 ms</p>
         <h1 class="display">Two paths, one call</h1>
-        <p class="lede">Masarain forecasts the next 1.5 seconds of the active network from signals a device can observe. While the risk lasts, each voice packet travels on two networks, inside a data budget.</p>
+        <p class="lede">Masarain forecasts the next 1.5 seconds of the active network from signals a device can observe. While the risk lasts, each packet with a deadline, from a call, a video call, or a control link, travels on two networks inside a data budget. Buffered video and downloads move to the safer network when the risk persists, but they are never copied.</p>
         <div class="hero-actions">
           <a class="btn btn--lg" href="simulation.html">Open the simulation</a>
           <a class="text-link" href="#method">Read the method</a>
@@ -81,23 +82,23 @@
   </div>
 
   <div class="wrap">
-    <p class="hero-note">A break in the tape is a gap the listener hears, and the white strip marks the seconds when a second copy was sent. The tapes are one 60-second run of the prototype over emulated links, recorded on 8 October 2026. We chose this stretch of the campus walk as an illustration, because it shows the fade, the copies, the move, and the drop in order; the averages are in the results below. In this run, switch after failure lost 9.9% of the voice with a longest silence of 1.5 s. Masarain lost 0.4% and sent 17% extra data as copies. It also carried the call itself on 5G for 41 of the 60 seconds, which the extra-data figure does not count.</p>
+    <p class="hero-note">A break in the tape is a gap the listener hears, and the white strip marks the seconds when a second copy was sent. The tapes are one 60-second run of the prototype over emulated links, recorded on 8 October 2026 on the link models of that day; it was not repeated after the models were set from published measurements. We chose this stretch of the campus walk as an illustration, because it shows the fade, the copies, the move, and the drop in order; the averages are in the results below. In this run, switch after failure lost 9.9% of the voice with a longest silence of 1.5 s. Masarain lost 0.4% and sent 17% extra data as copies. It also carried the call itself on 5G for 41 of the 60 seconds, which the extra-data figure does not count.</p>
   </div>
 </section>
 
 <section class="section" id="problem">
   <div class="wrap split">
     <div class="section-head">
-      <h2 class="display">A moving user loses the call when the active network drops</h2>
+      <h2 class="display">Calls, video calls, and control links break when the active network drops</h2>
       <p class="prose">Wi-Fi, 5G, satellite, and wired links fail in different ways when a user moves: coverage fades, cells hand over, Starlink satellite links reconfigure every 15 seconds, and cables are unplugged.</p>
-      <p class="prose">A device normally keeps one network active and changes only after that network has failed. In our simulation this loses 5.3% of the voice packets and leaves 14.7% of the seconds with degraded audio.</p>
+      <p class="prose">Real-time traffic has a deadline. A voice packet that arrives more than 80 ms after it was sent is useless, and so is a video-call packet after 150 ms or a control message after 250 ms. A device normally keeps one network active and changes only after that network has failed. In our simulation this loses 5.5% of the voice packets and leaves 14.4% of the seconds with degraded audio.</p>
     </div>
     <figure class="boundary">
       <h3>What happens today when Wi-Fi drops</h3>
       <div class="boundary-bar" aria-hidden="true"><span></span><span class="gap"></span><span class="gap"></span><span></span></div>
       <div class="boundary-key mono"><span>call on Wi-Fi</span><span>call on 5G</span></div>
       <p class="mono">Silence: 1.0 s before the loss is noticed, then 0.6 s to reconnect.</p>
-      <figcaption class="prose muted">Silence lasts about 1.6 seconds when the link stays down for 1.0 s or longer, and less after a shorter drop. The detection and reconnection times are modeling assumptions, and the detection time is varied in the sensitivity runs.</figcaption>
+      <figcaption class="prose muted">Silence lasts about 1.6 seconds when the link stays down for 1.0 s or longer, and less after a shorter drop. The detection time follows the beacon-loss timer of the Linux Wi-Fi stack and its probes, and the total lies within the switch times measured on Android phones (Linux mac80211, IEEE LCN 2019). The sensitivity runs vary the detection time.</figcaption>
     </figure>
   </div>
 </section>
@@ -106,13 +107,13 @@
   <div class="wrap">
     <div class="section-head">
       <h2 class="display">A second copy travels only while a forecast or a detected loss flags the link</h2>
-      <p class="lede">Masarain is a session layer on the device. It estimates the risk that the active network will lose packets within the next 1.5 seconds, and it steps up an escalation ladder only as far as that risk requires.</p>
+      <p class="lede">Masarain is a session layer on the device. It estimates the risk that the active network will lose packets within the next 1.5 seconds, steps up an escalation ladder only as far as that risk requires, and copies only the packets that lose their value after a deadline.</p>
     </div>
     <div class="split">
       <ol class="ladder">
         <li><div><h3>Normal</h3><p>One copy of each packet travels on the preferred path.</p><span class="mono">No copies; only keepalive probes on the idle path</span></div></li>
-        <li><div><h3>Risk ahead</h3><p>When the forecast loss probability reaches 5%, or a loss has just been detected, a second copy of each critical packet travels on the backup path. Each copy costs one token.</p><span class="mono">Budget: 20% of the critical traffic in the long run. The bucket starts full, so a short run can exceed 20%. The risk required for a copy rises as the budget drains.</span></div></li>
-        <li><div><h3>Risk sustained</h3><p>When the risk stays at 15% or more for 1 second, the call moves to the safer path. It returns after 3 seconds of healthy signal.</p><span class="mono">Copies resume only if the new path is at risk</span></div></li>
+        <li><div><h3>Risk ahead</h3><p>When the forecast loss probability reaches 5%, or a loss has just been detected, a second copy of each packet with a deadline travels on the backup path. Each copy costs one token. Buffered video and bulk data stay on one path.</p><span class="mono">Budget: 20% of the traffic with a deadline in the long run. The bucket starts full, so a short run can exceed 20%. The risk required for a copy rises as the budget drains.</span></div></li>
+        <li><div><h3>Risk sustained</h3><p>When the risk stays at 15% or more for 1 second, every flow moves to the safer path, buffered video and bulk data included. The flows return after 3 seconds of healthy signal.</p><span class="mono">Copies resume only if the new path is at risk</span></div></li>
       </ol>
       <div class="stack">
         <div>
@@ -122,63 +123,177 @@
           <div><h3>Wi-Fi</h3><p class="muted">The trend of the received signal strength over the last 2 seconds is projected 1.5 seconds ahead and converted to a loss probability.</p></div>
           <div><h3>5G</h3><p class="muted">The trend of the serving cell's signal strength, which falls before a handover or a coverage hole.</p></div>
           <div><h3>Satellite</h3><p class="muted">The reconfiguration clock of Starlink, known from published measurements: a brief disturbance every 15 seconds at known seconds of the minute.</p></div>
-          <div><h3>Wired</h3><p class="muted">No warning exists for a pulled cable, so the link-down signal triggers the ladder at once.</p></div>
+          <div><h3>Wired</h3><p class="muted">No warning exists for a pulled cable. The path simply stops answering, and the flows move once no acknowledgment has arrived for four smoothed round-trip times, and for at least 100 ms. That is well before the network card reports the cable as unplugged after 0.75 s.</p></div>
         </div>
         <div>
           <h3>Why a budget</h3>
-          <p class="prose muted">A token bucket limits copies to a fixed long-run share of the critical traffic. It keeps the cost of copies on a metered backup link predictable, and it bounds the copies sent when a forecast is wrong or when someone feeds the device false signals.</p>
+          <p class="prose muted">A token bucket limits copies to a fixed long-run share of the traffic with a deadline. It keeps the cost of copies on a metered backup link predictable, and it bounds the copies sent when a forecast is wrong or when someone feeds the device false signals.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<section class="section" id="layers">
+  <div class="wrap stack">
+    <div class="section-head">
+      <h2 class="display">Masarain is a session layer over UDP that knows what each flow carries</h2>
+      <p class="lede">It works between the applications and the transport layer, so the network, the operator, and the applications stay unchanged. Other multipath mechanisms work lower in the stack.</p>
+    </div>
+    <div class="split">
+      <div>
+        <h3>Where each multipath mechanism works</h3>
+        <dl class="defs defs--plain">
+          <div><dt>Multipath TCP</dt><dd>Transport layer, in the kernel: one TCP connection spread over several paths.</dd></div>
+          <div><dt>Multipath QUIC</dt><dd>Transport layer in user space, over UDP; when to send a copy is left open.</dd></div>
+          <div><dt>3GPP ATSSS</dt><dd>In the 5G device and the core network: the operator steers or splits traffic between 5G and Wi-Fi.</dd></div>
+          <div><dt>SD-WAN</dt><dd>A network-layer overlay on an edge router that steers or duplicates traffic by policy.</dd></div>
+          <div><dt>Masarain</dt><dd>A session-layer overlay over UDP, on the device or on a gateway; no operator is needed.</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h3>How a flow gets its class</h3>
+        <p class="prose muted">In a deployment, the application names the class when it opens a flow; on a gateway, the DSCP mark, the protocol, and the ports of each packet give it. Masarain reads headers only, and the payload stays encrypted end to end. This is the design: in the simulator, each class runs alone on the same links, and the prototype carries only a voice call and a control stream, so it does not classify flows yet.</p>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table named">
+        <caption>Traffic classes in the simulator, and what Masarain does for each</caption>
+        <thead><tr><th scope="col">Class</th><th scope="col">Transport</th><th scope="col">Application rate</th><th scope="col" class="text">Deadline</th><th scope="col" class="text">Masarain</th></tr></thead>
+        <tbody>
+          <tr><td>Voice call, RTP over UDP</td><td>UDP</td><td>64 kbit/s</td><td class="text">80 ms</td><td class="text">Copies while the risk lasts; moves on sustained risk</td></tr>
+          <tr><td>Voice call over TCP/TLS (UDP blocked)</td><td>TCP</td><td>64 kbit/s</td><td class="text">80 ms</td><td class="text">Copies while the risk lasts; moves on sustained risk</td></tr>
+          <tr><td>Control or telemetry stream</td><td>UDP</td><td>9.6 kbit/s</td><td class="text">250 ms</td><td class="text">Copies while the risk lasts; moves on sustained risk</td></tr>
+          <tr><td>Interactive video, RTP over UDP</td><td>UDP</td><td>1.5 Mbit/s</td><td class="text">150 ms for every packet of a frame</td><td class="text">Copies while the risk lasts; moves on sustained risk</td></tr>
+          <tr><td>Streaming video, DASH over TCP</td><td>TCP</td><td>5 Mbit/s</td><td class="text">none; a 30 s playback buffer</td><td class="text">Moves on sustained risk; never copied</td></tr>
+          <tr><td>Bulk data over TCP</td><td>TCP</td><td>2 Mbit/s</td><td class="text">none</td><td class="text">Moves on sustained risk; never copied</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="networks">
+  <div class="wrap stack">
+    <div class="section-head">
+      <h2 class="display">Each network fails in its own way, and each model follows published measurements</h2>
+      <p class="prose">The simulator gives each access type its own failure model. Its parameters come from measurement studies of campus Wi-Fi, of commercial 5G while driving, and of Starlink at fixed sites and in motion, and from IEEE, 3GPP, and ITU-R documents and the documentation of operating systems. Each parameter in the configuration of the simulator carries its source, and the values that remain assumptions are marked there. A few constants inside the code of the link models carry no source and count as assumptions. The sensitivity runs vary the main assumptions.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table data-table--models">
+        <caption>The link model of each network and the sources of its parameters</caption>
+        <thead><tr><th scope="col">Network</th><th scope="col" class="text">What goes wrong</th><th scope="col" class="text">Main parameters of the model</th><th scope="col" class="text">Measured or specified in</th></tr></thead>
+        <tbody>
+          <tr><td>Wi-Fi</td><td class="text">Coverage fades as the user walks. The client roams between access points and loses the link below the receiver&#x27;s sensitivity.</td><td class="text">Roams below −75 dBm; each roam interrupts the link for 300 ms<br>Link lost below −82 dBm<br>Beacon loss noticed after 0.72 s<br>Shadowing 5 dB, decorrelated over 10 m<br>One-way delay 8 ms, plus a random 4 ms on average</td><td class="text">ITU-R P.1411-13, 3GPP TR 38.901, IEEE 802.11ac, Apple, Mishra 2003, Sui 2016, FCC Measuring Broadband America (report 13), Linux mac80211</td></tr>
+          <tr><td>5G</td><td class="text">The phone hands over between cells, a few handovers fail, and the rural road has coverage holes.</td><td class="text">Cells every 730 m<br>Each handover interrupts the user plane for 60 ms<br>0.4% of handovers fail; a failed one leaves the link down for 1.2 s (assumed)<br>Just before a handover, 0.67% loss and 40 ms more delay<br>One-way delay 32 ms, deviation 8 ms</td><td class="text">Hassan SIGCOMM 2022, Ghoshal IMC 2023, Kalntis IMC 2024</td></tr>
+          <tr><td>LEO satellite</td><td class="text">Starlink reassigns satellites on a global clock, and trees, bridges, and buildings block the dish of a vehicle.</td><td class="text">Reconfigures every 15 s, at seconds 12, 27, 42, and 57 of the minute<br>Delay spike of up to 74 ms at each reconfiguration<br>5% loss inside the reconfiguration window (assumed)<br>Random loss 0.4% of packets<br>Obstructions 1.25 per minute, 1.3 s long on average<br>One-way delay 29 ms, deviation 5 ms</td><td class="text">Tanveer 2023, Mohan 2024, Casparsen 2026, Ramirez-Arroyo OJ-COMS 2026, WetLinks TMA 2024, Michel IMC 2022, Laniewski TMA 2024, Zhao 2026</td></tr>
+          <tr><td>Wired Ethernet</td><td class="text">Fast and steady until the laptop is undocked; then the link is gone at once, with no warning.</td><td class="text">One-way delay 4 ms, variation 0.5 ms<br>Random loss 0.05% of packets while the cable is plugged in (assumed)<br>The network card reports a pulled cable after 0.75 s<br>The operating system acts after 1 s</td><td class="text">FCC Measuring Broadband America (report 13), Sui 2016, IEEE 802.3, Microsoft NDIS</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <caption>Measurement report: each network alone, carrying one voice packet every 20 ms, averaged over every scenario in which it appears (30 seeds each)</caption>
+        <thead><tr><th scope="col">Network</th><th scope="col">One-way delay, median</th><th scope="col">One-way delay, 99th percentile</th><th scope="col">Jitter, RFC 3550</th><th scope="col">Loss while the link is up</th><th scope="col">Outages per minute</th><th scope="col">Mean outage</th></tr></thead>
+        <tbody>
+          <tr><td>Wi-Fi</td><td>11.2 ms</td><td>27.6 ms</td><td>4.0 ms</td><td>3.88%</td><td>3.69</td><td>1.1 s</td></tr>
+          <tr><td>5G</td><td>39.5 ms</td><td>83.6 ms</td><td>8.1 ms</td><td>1.15%</td><td>13.29</td><td>171 ms</td></tr>
+          <tr><td>LEO satellite</td><td>32.5 ms</td><td>61.5 ms</td><td>5.1 ms</td><td>0.47%</td><td>0.91</td><td>1.2 s</td></tr>
+          <tr><td>Wired Ethernet</td><td>4.3 ms</td><td>6.3 ms</td><td>0.5 ms</td><td>0.04%</td><td>0.25</td><td>118.3 s</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose muted">These figures describe the models, not a measured real network. The pulled cable stays out until the end of its run, so the outage of the wired link lasts 118.3 s.</p>
+  </div>
+</section>
+
 <section class="section" id="method">
-  <div class="wrap">
+  <div class="wrap stack">
     <div class="section-head">
       <h2 class="display">Paired simulation first, then the real prototype over emulated links</h2>
       <p class="lede">The radio links are emulated. No result on this page comes from a real radio network.</p>
     </div>
     <ol class="steps">
-      <li><span class="mono">Step 1</span><h3>Simulator</h3><p class="muted">A packet-level simulator written for this project replays six mobility scenarios on a 10 ms link grid. Wi-Fi, 5G, satellite, and wired links each have their own failure model, and the forecaster never reads the true link state.</p></li>
+      <li><span class="mono">Step 1</span><h3>Simulator</h3><p class="muted">A packet-level simulator written for this project replays six mobility scenarios on a 10 ms link grid. Six traffic classes run over UDP or TCP. TCP retransmits after a timeout of at least 200 ms and delivers in order, so a loss also delays the packets behind it. The forecaster never reads the true link state.</p></li>
       <li><span class="mono">Step 2</span><h3>Comparison</h3><p class="muted">Eight mechanisms meet exactly the same losses and delays in each run, over 30 random seeds per scenario. We report differences as paired means with 95% intervals, and we compare the budgeted families at equal budgets.</p></li>
-      <li><span class="mono">Step 3</span><h3>Prototype</h3><p class="muted">The prototype is real software: a client and a server with an encrypted packet format, real timers, and the same policy module as the simulator. A relay between them replays the simulator's link traces.</p></li>
+      <li><span class="mono">Step 3</span><h3>Prototype</h3><p class="muted">The prototype is real software: a client and a server with an encrypted packet format, real timers, and the same policy module as the simulator. A relay between them replays the simulator's link traces. It ran on 8 October 2026, on the link models of that time, and was not repeated after the models were set from published measurements.</p></li>
     </ol>
+    <div>
+      <h3>What we measure</h3>
+      <dl class="defs">
+        <div><dt>Quality of service (QoS)</dt><dd>What the network delivers for each packet: its delay, the jitter, the time between arrivals, and loss or lateness.</dd></div>
+        <div><dt>Quality of experience (QoE)</dt><dd>What the user feels: the E-model score of a call, frozen frames of a video call, stalls of a streaming player (the rebuffering that YouTube and Netflix players count), and pauses of a download.</dd></div>
+        <div><dt>Lost or late</dt><dd>A packet that arrives after its deadline counts as lost, because the receiver can no longer use it. A voice packet has 80 ms from sending.</dd></div>
+        <div><dt>Jitter (RFC 3550)</dt><dd>The smoothed variation of transit time between consecutive packets, as an RTP receiver computes it.</dd></div>
+        <div><dt>Inter-packet arrival time</dt><dd>The time between two consecutive packets at the receiver: jitter as the receiver sees it. Voice packets leave every 20 ms, so a gap longer than 60 ms is a break in the call. We report its 99.9th percentile and the gaps longer than 60 ms per minute.</dd></div>
+      </dl>
+    </div>
   </div>
 </section>
 
 <section class="section section--panel" id="results">
   <div class="wrap stack">
     <div class="section-head">
-      <h2 class="display">Masarain closes 88% of the gap to full redundancy with 17% of its extra data</h2>
-      <p class="prose muted">We measure the gap from multipath scheduling by lowest round-trip time (RTT), which sends no copies, to full redundancy, which sends every packet on both networks whenever both are usable. All figures are means over six scenarios and 30 seeds. Extra data counts second copies and parity packets only. Keepalive probes on the idle path add a further 5.6 points for Masarain, 6.5 for lowest-RTT multipath, and 1.2 for full redundancy; with probes counted, Masarain sends 24% of the extra data that full redundancy sends.</p>
+      <h2 class="display">Masarain closes 83% of the gap to full redundancy with 19% of its extra data</h2>
+      <p class="prose muted">The main comparison carries a call of 50 voice packets per second beside a control stream of 10 messages per second. We measure the gap from multipath scheduling by lowest round-trip time (RTT), which sends no copies, to full redundancy, which sends every packet on both networks whenever both are usable. All figures are means over six scenarios and 30 seeds. Extra data counts second copies and parity packets only. Keepalive probes on the idle path add a further 5.5 points for Masarain, 6.6 for lowest-RTT multipath, and 1.2 for full redundancy; with probes counted, Masarain sends 25% of the extra data that full redundancy sends.</p>
     </div>
     <ul class="findings">
-      <li><span>Voice packets lost or late, from switch after failure to Masarain</span><span class="figure">5.3% to <b>0.65%</b></span></li>
-      <li><span>Extra data sent as copies, from full redundancy to Masarain</span><span class="figure">81% to <b>14%</b></span></li>
-      <li><span>Seconds with degraded audio, from switch after failure to Masarain</span><span class="figure">14.7% to <b>2.4%</b></span></li>
-      <li><span>Loss at the same budget, from a fixed signal threshold to the forecast (paired difference −0.16 ± 0.01 points)</span><span class="figure">0.81% to <b>0.65%</b></span></li>
-      <li><span>Median warning before Wi-Fi coverage is lost</span><span class="figure"><b>4.6 s</b></span></li>
+      <li><span>Voice packets lost or late, from switch after failure to Masarain</span><span class="figure">5.5% to <b>0.83%</b></span></li>
+      <li><span>Gap between voice packets at the 99.9th percentile, from switch after failure to Masarain</span><span class="figure">229 ms to <b>52 ms</b></span></li>
+      <li><span>Gaps longer than 60 ms per minute, from switch after failure to Masarain</span><span class="figure">9.4 to <b>1.4</b></span></li>
+      <li><span>Extra data sent as copies, from full redundancy to Masarain</span><span class="figure">81% to <b>16%</b></span></li>
+      <li><span>Loss at the same budget, from a fixed signal threshold to the forecast (paired difference −0.14 ± 0.01 points)</span><span class="figure">0.96% to <b>0.83%</b></span></li>
+      <li><span>Median warning before Wi-Fi coverage is lost</span><span class="figure"><b>4.4 s</b></span></li>
     </ul>
     <div class="table-scroll">
       <table class="data-table">
-        <caption>Every mechanism in the comparison: mean and 95% interval</caption>
-        <thead><tr><th scope="col">Mechanism</th><th scope="col">Voice lost or late</th><th scope="col">Degraded seconds</th><th scope="col">Extra data (copies)</th></tr></thead>
+        <caption>Every mechanism in the comparison: voice and extra data, mean over all scenarios and seeds</caption>
+        <thead><tr><th scope="col">Mechanism</th><th scope="col">Voice lost or late, 95% interval</th><th scope="col">Jitter, RFC 3550</th><th scope="col">Gap, 99.9th percentile</th><th scope="col">Gaps over 60 ms per minute</th><th scope="col">Extra data (copies)</th></tr></thead>
         <tbody>
-          <tr><td>Switch after failure</td><td>5.25% ± 0.23</td><td>14.7%</td><td>0%</td></tr>
-          <tr><td>Multipath, lowest RTT</td><td>2.50% ± 0.13</td><td>11.7%</td><td>0%</td></tr>
-          <tr><td>Adaptive error correction</td><td>1.68% ± 0.09</td><td>8.1%</td><td>8%</td></tr>
-          <tr><td>Signal-threshold duplication</td><td>0.81% ± 0.07</td><td>3.9%</td><td>13%</td></tr>
-          <tr><td>Reactive duplication</td><td>0.57% ± 0.06</td><td>2.5%</td><td>44%</td></tr>
-          <tr><td>Full redundancy</td><td>0.40% ± 0.06</td><td>1.9%</td><td>81%</td></tr>
-          <tr class="ours"><td>Masarain</td><td>0.65% ± 0.07</td><td>2.4%</td><td>14%</td></tr>
-          <tr><td>Perfect foresight (bound)</td><td>0.40% ± 0.06</td><td>1.9%</td><td>2%</td></tr>
+          <tr><td>Switch after failure</td><td>5.50% ± 0.30</td><td>4.8 ms</td><td>229 ms</td><td>9.4</td><td>0%</td></tr>
+          <tr><td>Multipath, lowest RTT</td><td>2.66% ± 0.18</td><td>4.5 ms</td><td>91 ms</td><td>8.1</td><td>0%</td></tr>
+          <tr><td>Adaptive error correction</td><td>1.92% ± 0.12</td><td>4.7 ms</td><td>89 ms</td><td>7.0</td><td>8%</td></tr>
+          <tr><td>Signal-threshold duplication</td><td>0.96% ± 0.09</td><td>5.0 ms</td><td>53 ms</td><td>1.6</td><td>15%</td></tr>
+          <tr><td>Reactive duplication</td><td>0.68% ± 0.07</td><td>4.6 ms</td><td>49 ms</td><td>1.0</td><td>46%</td></tr>
+          <tr><td>Full redundancy</td><td>0.46% ± 0.07</td><td>4.5 ms</td><td>48 ms</td><td>0.7</td><td>81%</td></tr>
+          <tr class="ours"><td>Masarain</td><td>0.83% ± 0.09</td><td>5.0 ms</td><td>52 ms</td><td>1.4</td><td>16%</td></tr>
+          <tr><td>Perfect foresight (bound)</td><td>0.47% ± 0.07</td><td>4.8 ms</td><td>50 ms</td><td>0.8</td><td>2%</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="prose muted">RFC 3550 jitter stays between 4.5 and 5.0 ms for every mechanism. It is computed over the packets that arrive, so a break in the call hardly changes it; the 99.9th percentile of the gap between packets shows the breaks. Masarain's jitter, 5.0 ms, is slightly higher than that of switch after failure, 4.8 ms (paired difference +0.20 ± 0.04 ms). We have not analyzed the cause; one candidate is the step in transit time when packets start to arrive over the second network, as copies or after a move.</p>
+    <div class="table-scroll">
+      <table class="data-table named">
+        <caption>Each traffic class alone: what the user notices. Mean over six scenarios and 30 seeds.</caption>
+        <thead><tr><th scope="col">Class</th><th scope="col" class="text">Measure of experience</th><th scope="col">Switch after failure</th><th scope="col">Multipath, lowest RTT</th><th scope="col">Full redundancy</th><th scope="col">Masarain</th><th scope="col">Extra data, Masarain / full redundancy</th></tr></thead>
+        <tbody>
+          <tr><td>Voice call, RTP over UDP</td><td class="text">lost or late</td><td>5.48%</td><td>2.55%</td><td>0.47%</td><td>0.83%</td><td>15% / 81%</td></tr>
+          <tr><td>Voice call over TCP/TLS (UDP blocked)</td><td class="text">lost or late</td><td>12.07%</td><td>10.30%</td><td>1.57%</td><td>3.23%</td><td>15% / 81%</td></tr>
+          <tr><td>Control or telemetry stream (UDP)</td><td class="text">deadline missed</td><td>5.12%</td><td>2.20%</td><td>0.30%</td><td>0.66%</td><td>9% / 81%</td></tr>
+          <tr><td>Interactive video, RTP over UDP</td><td class="text">frozen frames</td><td>9.52%</td><td>7.26%</td><td>0.87%</td><td>2.07%</td><td>20% / 82%</td></tr>
+          <tr><td>Streaming video, DASH over TCP</td><td class="text">player stalled, per run</td><td>0.0 s</td><td>0.0 s</td><td>0.0 s</td><td>0.0 s</td><td>0% / 81%</td></tr>
+          <tr><td>Bulk data over TCP</td><td class="text">pauses over 1 second, total per run</td><td>4.5 s</td><td>4.7 s</td><td>0.6 s</td><td>0.8 s</td><td>0% / 81%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose muted">Transport matters. Over TCP, a lost voice packet waits for a retransmission after at least 200 ms and holds back every packet behind it, so with one path 12.07% of the voice over TCP is lost or late, against 5.48% over UDP. With Masarain, a copy over the second network can arrive before the timeout fires, and the loss falls to 3.23%.</p>
+    <p class="prose muted">Buffered traffic needs no copy. A streaming player that holds 30 s of video rides out every outage in these runs, under every mechanism. Masarain sends no copies for it, against 81% extra data for full redundancy. Bulk data is not copied either, but moving it to the safer network cuts its pauses from 4.5 s per run with one path to 0.8 s.</p>
+    <div class="table-scroll">
+      <table class="data-table named">
+        <caption>Voice lost or late, filed by the network that fails, mean over its scenarios and 30 seeds</caption>
+        <thead><tr><th scope="col">Network that fails</th><th scope="col">Switch after failure</th><th scope="col">Multipath, lowest RTT</th><th scope="col">Full redundancy</th><th scope="col">Masarain</th><th scope="col" class="wide">Gap, 99.9th percentile, switch after failure to Masarain</th><th scope="col">Extra data, Masarain</th></tr></thead>
+        <tbody>
+          <tr><td>Wi-Fi<span class="sub">campus road, campus walk, remote base</span></td><td>6.38%</td><td>3.82%</td><td>0.35%</td><td>0.70%</td><td>262 to 53 ms</td><td>17%</td></tr>
+          <tr><td>5G<span class="sub">rural road</span></td><td>8.63%</td><td>2.07%</td><td>0.71%</td><td>1.23%</td><td>440 to 57 ms</td><td>21%</td></tr>
+          <tr><td>LEO satellite<span class="sub">vehicle on satellite</span></td><td>4.26%</td><td>2.09%</td><td>0.77%</td><td>1.30%</td><td>106 to 53 ms</td><td>20%</td></tr>
+          <tr><td>Wired Ethernet<span class="sub">undocked laptop</span></td><td>0.93%</td><td>0.32%</td><td>0.25%</td><td>0.32%</td><td>42 to 42 ms</td><td>1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose muted">On the wired link, which gives no warning, Masarain does no better than lowest-RTT multipath: both move the call once the path stops answering.</p>
     <div class="table-scroll">
       <table class="data-table">
-        <caption>The real prototype over emulated links against the simulator (campus walk, one 298-second trace)</caption>
+        <caption>The real prototype over emulated links against the simulator (campus walk, one 298-second trace, run on 8 October 2026 on the earlier link models)</caption>
         <thead><tr><th scope="col">Mechanism</th><th scope="col">Prototype: lost or late</th><th scope="col">Prototype: copies</th><th scope="col">Simulator: lost or late, mean ± s.d.</th><th scope="col">Simulator: copies</th></tr></thead>
         <tbody>
           <tr><td>Switch after failure</td><td>1.71%</td><td>0%</td><td>1.80% ± 0.08</td><td>0%</td></tr>
@@ -197,11 +312,13 @@
   <div class="wrap">
     <div class="section-head"><h2 class="display">Limits of this work</h2></div>
     <ul class="limits">
-      <li>The link models are synthetic. Many parameters are assumptions, and the sensitivity runs vary the main ones.</li>
-      <li>Most of the gain comes from the budgeted ladder. A fixed signal threshold inside the same ladder already reaches 0.81% loss, and the forecast improves this to 0.65%.</li>
-      <li>Sudden failures cannot be forecast. The forecaster flags 0% of pulled cables in advance. The evaluation counts 14% of satellite obstructions as flagged, but that figure is chance coincidence with a scheduled reconfiguration, not a forecast: random timing alone gives about 12%. For both failures Masarain behaves like reactive duplication.</li>
-      <li>Early warning has a price: 54% of Wi-Fi alarms and 44% of 5G alarms are not followed by real degradation. The budget keeps those false alarms affordable.</li>
-      <li>The prototype has run over emulated links only. A field test on real Wi-Fi and 5G is the next step.</li>
+      <li>The link models follow published measurements, but they remain models: no recorded trace is replayed yet, and Wi-Fi contention and queueing under load are not modeled. Most remaining assumptions are marked in the code, and the sensitivity runs vary the main ones.</li>
+      <li>Each traffic class is tested alone, so the simulator does not yet show how classes that share one link affect each other.</li>
+      <li>Most of the gain comes from the budgeted ladder. A fixed signal threshold inside the same ladder already reaches 0.96% loss, and the forecast improves this to 0.83%.</li>
+      <li>Sudden failures cannot be forecast. The forecaster flags 0% of pulled cables in advance. The evaluation counts 12% of satellite obstructions as flagged, but that figure is chance coincidence with a scheduled reconfiguration, not a forecast: random timing alone gives about 12%. For both failures Masarain behaves like reactive duplication.</li>
+      <li>Early warning has a price: 55% of Wi-Fi alarms and 44% of 5G alarms are not followed by real degradation. The budget keeps those false alarms affordable.</li>
+      <li>No satellite terminal was available, so the satellite results come from simulation only.</li>
+      <li>The prototype forecasts Wi-Fi only, because a tethered laptop cannot read the signal of the 5G modem. It has run over emulated links only, and only on the link models of 8 October 2026. A field test on real Wi-Fi and 5G is the next step.</li>
     </ul>
   </div>
 </section>
@@ -219,7 +336,10 @@
 
 <section class="section section--panel">
   <div class="wrap cta">
-    <h2 class="display">Watch one call cross the boundary under both methods</h2>
+    <div class="cta-copy">
+      <h2 class="display">Watch one call cross the boundary under both methods</h2>
+      <p class="prose muted">The page replays recorded runs, made on 8 October 2026 on the link models of that time, before the models were set from published measurements.</p>
+    </div>
     <a class="btn btn--lg" href="simulation.html">Open the simulation</a>
   </div>
 </section>

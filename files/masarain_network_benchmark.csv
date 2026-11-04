@@ -1,0 +1,49 @@
+Part,Network,Scenarios,Mechanism,"One-way delay, median (ms)","One-way delay, 99th percentile (ms)","Round-trip time, median (ms)","Jitter, RFC 3550, mean (ms)","Jitter, RFC 3550, 95th percentile (ms)","Delay variation, 99.9th percentile of the one-way delay minus its minimum (ms)",Loss while the link is up (%),"Loss, outages included (%)","Time between packets at the receiver, 99th percentile (ms)",Longest time between packets at the receiver (ms),Outages (per minute),"Outage length, mean (ms)","Outage length, longest (ms)",Time down (%),Voice packets lost or late (%),"Voice jitter, RFC 3550, mean (ms)","Voice jitter, RFC 3550, 95th percentile (ms)","Time between voice packets at the receiver, 99.9th percentile (ms)",Longest time between voice packets at the receiver (ms),Times longer than 60 ms between voice packets (per minute),Seconds with degraded audio (%),"Call quality, E-model MOS",Extra data sent as copies (%)
+Each network alone,Wi-Fi,All scenarios with Wi-Fi: T1 campus walk; T1 campus road at 30 km/h; T3 remote base; T4 base,,11.15,27.60,22.31,4.01,5.66,28.58,3.88,12.03,55.05,7258.49,3.69,1076.83,7095.42,8.87,,,,,,,,,
+Each network alone,Wi-Fi,T1 campus walk,,11.09,27.42,22.18,4.00,5.64,28.53,3.08,5.64,44.17,4058.58,1.49,984.87,3959.33,2.73,,,,,,,,,
+Each network alone,Wi-Fi,T1 campus road at 30 km/h,,11.50,28.98,23.00,4.04,5.72,29.61,8.19,35.44,91.55,21920.75,11.68,1573.98,21294.67,29.57,,,,,,,,,
+Each network alone,Wi-Fi,T3 remote base,,11.20,27.59,22.40,4.00,5.64,28.59,3.91,6.72,47.91,2946.24,1.31,1448.15,2827.00,3.05,,,,,,,,,
+Each network alone,Wi-Fi,T4 base,,10.83,26.42,21.66,3.99,5.65,27.60,0.31,0.34,36.56,108.41,0.30,300.33,300.67,0.15,,,,,,,,,
+Each network alone,5G,All scenarios with 5G: T1 campus walk; T1 campus road at 30 km/h; T2 rural road at 72 km/h; T5 vehicle with a LEO terminal as the preferred link,,39.50,83.58,79.01,8.12,11.60,71.76,1.15,7.51,50.15,1992.15,13.29,170.65,1914.17,6.47,,,,,,,,,
+Each network alone,5G,T1 campus walk,,37.53,68.78,75.07,8.04,11.49,55.07,0.30,0.30,44.23,66.11,0.00,0.00,0.00,0.00,,,,,,,,,
+Each network alone,5G,T1 campus road at 30 km/h,,38.13,84.12,76.26,8.13,11.62,69.60,0.50,0.88,45.11,81.35,3.64,61.54,68.33,0.37,,,,,,,,,
+Each network alone,5G,T2 rural road at 72 km/h,,41.19,90.72,82.38,8.17,11.65,80.38,1.91,14.44,55.70,3843.77,24.75,310.27,3761.00,12.74,,,,,,,,,
+Each network alone,5G,T5 vehicle with a LEO terminal as the preferred link,,41.17,90.71,82.34,8.15,11.66,82.00,1.91,14.44,55.55,3977.37,24.77,310.81,3827.33,12.75,,,,,,,,,
+Each network alone,LEO satellite,All scenarios with LEO satellite: T2 rural road at 72 km/h; T3 remote base; T5 vehicle with a LEO terminal as the preferred link,,32.53,61.55,65.06,5.14,7.54,73.45,0.47,2.49,40.12,2657.44,0.91,1228.16,2627.89,2.02,,,,,,,,,
+Each network alone,LEO satellite,T2 rural road at 72 km/h,,32.52,61.47,65.05,5.13,7.53,73.08,0.48,3.28,40.17,3641.48,1.25,1489.40,3625.67,2.80,,,,,,,,,
+Each network alone,LEO satellite,T3 remote base,,32.52,61.47,65.04,5.13,7.53,73.19,0.48,1.04,40.04,1259.95,0.18,951.08,1208.67,0.56,,,,,,,,,
+Each network alone,LEO satellite,T5 vehicle with a LEO terminal as the preferred link,,32.54,61.72,65.09,5.16,7.56,74.09,0.46,3.15,40.15,3070.90,1.30,1243.98,3049.33,2.70,,,,,,,,,
+Each network alone,Wired Ethernet,All scenarios with Wired Ethernet: T4 base,,4.35,6.32,8.69,0.50,0.71,3.45,0.04,49.31,21.99,39.37,0.25,118319.67,118319.67,49.30,,,,,,,,,
+Each network alone,Wired Ethernet,T4 base,,4.35,6.32,8.69,0.50,0.71,3.45,0.04,49.31,21.99,39.37,0.25,118319.67,118319.67,49.30,,,,,,,,,
+"Mechanisms, by the network that fails",Wi-Fi,T1 campus walk; T1 campus road at 30 km/h; T3 remote base,Switch after failure,,,,,,,,,,,,,,,6.38,4.67,7.50,261.94,1273.10,13.79,16.81,3.48,0.00
+"Mechanisms, by the network that fails",Wi-Fi,T1 campus walk; T1 campus road at 30 km/h; T3 remote base,"Multipath, lowest RTT",,,,,,,,,,,,,,,3.82,4.66,7.56,125.36,233.11,14.17,17.71,3.91,0.00
+"Mechanisms, by the network that fails",Wi-Fi,T1 campus walk; T1 campus road at 30 km/h; T3 remote base,Adaptive error correction,,,,,,,,,,,,,,,2.45,5.13,9.36,120.92,232.22,12.00,12.21,4.07,10.75
+"Mechanisms, by the network that fails",Wi-Fi,T1 campus walk; T1 campus road at 30 km/h; T3 remote base,Signal-threshold duplication,,,,,,,,,,,,,,,0.79,5.60,9.54,53.15,125.93,1.62,2.80,4.27,16.13
+"Mechanisms, by the network that fails",Wi-Fi,T1 campus walk; T1 campus road at 30 km/h; T3 remote base,Reactive duplication,,,,,,,,,,,,,,,0.48,5.31,9.79,50.54,103.22,0.94,1.64,4.30,51.27
+"Mechanisms, by the network that fails",Wi-Fi,T1 campus walk; T1 campus road at 30 km/h; T3 remote base,Full redundancy,,,,,,,,,,,,,,,0.35,5.35,9.81,49.83,75.61,0.73,1.28,4.32,86.27
+"Mechanisms, by the network that fails",Wi-Fi,T1 campus walk; T1 campus road at 30 km/h; T3 remote base,Masarain,,,,,,,,,,,,,,,0.70,5.75,9.72,52.99,108.48,1.42,2.07,4.28,17.12
+"Mechanisms, by the network that fails",Wi-Fi,T1 campus walk; T1 campus road at 30 km/h; T3 remote base,Perfect foresight (bound),,,,,,,,,,,,,,,0.35,5.36,9.84,49.97,76.05,0.73,1.28,4.32,3.53
+"Mechanisms, by the network that fails",5G,T2 rural road at 72 km/h,Switch after failure,,,,,,,,,,,,,,,8.63,7.34,11.19,439.54,1898.61,11.05,21.44,3.10,0.00
+"Mechanisms, by the network that fails",5G,T2 rural road at 72 km/h,"Multipath, lowest RTT",,,,,,,,,,,,,,,2.07,5.35,8.44,66.69,685.19,2.87,9.77,4.13,0.00
+"Mechanisms, by the network that fails",5G,T2 rural road at 72 km/h,Adaptive error correction,,,,,,,,,,,,,,,1.95,5.42,8.72,65.91,684.16,2.78,9.52,4.14,6.45
+"Mechanisms, by the network that fails",5G,T2 rural road at 72 km/h,Signal-threshold duplication,,,,,,,,,,,,,,,1.40,5.84,9.65,59.53,626.37,1.99,5.62,4.21,19.73
+"Mechanisms, by the network that fails",5G,T2 rural road at 72 km/h,Reactive duplication,,,,,,,,,,,,,,,1.12,4.63,7.36,50.91,623.79,1.53,5.00,4.24,59.59
+"Mechanisms, by the network that fails",5G,T2 rural road at 72 km/h,Full redundancy,,,,,,,,,,,,,,,0.71,4.28,6.69,46.88,570.43,1.01,2.46,4.28,89.30
+"Mechanisms, by the network that fails",5G,T2 rural road at 72 km/h,Masarain,,,,,,,,,,,,,,,1.23,5.55,9.14,57.46,639.92,1.77,3.53,4.23,20.63
+"Mechanisms, by the network that fails",5G,T2 rural road at 72 km/h,Perfect foresight (bound),,,,,,,,,,,,,,,0.71,5.39,8.53,52.45,569.93,1.43,2.46,4.28,1.37
+"Mechanisms, by the network that fails",LEO satellite,T5 vehicle with a LEO terminal as the preferred link,Switch after failure,,,,,,,,,,,,,,,4.26,5.29,8.05,105.71,1901.82,3.45,12.77,3.80,0.00
+"Mechanisms, by the network that fails",LEO satellite,T5 vehicle with a LEO terminal as the preferred link,"Multipath, lowest RTT",,,,,,,,,,,,,,,2.09,5.38,8.49,63.11,914.48,2.78,9.88,4.12,0.00
+"Mechanisms, by the network that fails",LEO satellite,T5 vehicle with a LEO terminal as the preferred link,Adaptive error correction,,,,,,,,,,,,,,,1.97,5.45,8.78,62.07,914.48,2.69,9.64,4.14,6.34
+"Mechanisms, by the network that fails",LEO satellite,T5 vehicle with a LEO terminal as the preferred link,Signal-threshold duplication,,,,,,,,,,,,,,,1.69,5.10,7.81,55.78,852.28,2.21,8.22,4.17,18.96
+"Mechanisms, by the network that fails",LEO satellite,T5 vehicle with a LEO terminal as the preferred link,Reactive duplication,,,,,,,,,,,,,,,1.18,4.65,7.34,50.86,826.85,1.59,5.02,4.23,58.64
+"Mechanisms, by the network that fails",LEO satellite,T5 vehicle with a LEO terminal as the preferred link,Full redundancy,,,,,,,,,,,,,,,0.77,4.28,6.67,47.21,772.46,0.98,2.54,4.28,89.40
+"Mechanisms, by the network that fails",LEO satellite,T5 vehicle with a LEO terminal as the preferred link,Masarain,,,,,,,,,,,,,,,1.30,5.03,7.54,52.56,852.88,1.80,3.99,4.22,19.81
+"Mechanisms, by the network that fails",LEO satellite,T5 vehicle with a LEO terminal as the preferred link,Perfect foresight (bound),,,,,,,,,,,,,,,0.77,5.41,8.54,53.37,773.76,1.37,2.53,4.28,1.38
+"Mechanisms, by the network that fails",Wired Ethernet,T4 base,Switch after failure,,,,,,,,,,,,,,,0.93,2.20,5.17,42.23,1620.43,0.36,1.61,4.26,0.00
+"Mechanisms, by the network that fails",Wired Ethernet,T4 base,"Multipath, lowest RTT",,,,,,,,,,,,,,,0.32,2.21,5.17,42.23,195.12,0.36,1.01,4.32,0.00
+"Mechanisms, by the network that fails",Wired Ethernet,T4 base,Adaptive error correction,,,,,,,,,,,,,,,0.25,2.24,5.29,42.06,194.53,0.35,0.57,4.33,2.48
+"Mechanisms, by the network that fails",Wired Ethernet,T4 base,Signal-threshold duplication,,,,,,,,,,,,,,,0.32,2.21,5.17,42.22,191.24,0.35,0.99,4.32,1.49
+"Mechanisms, by the network that fails",Wired Ethernet,T4 base,Reactive duplication,,,,,,,,,,,,,,,0.31,2.21,5.17,42.20,181.23,0.32,0.94,4.32,5.70
+"Mechanisms, by the network that fails",Wired Ethernet,T4 base,Full redundancy,,,,,,,,,,,,,,,0.25,2.22,5.17,41.98,128.30,0.11,0.59,4.33,50.76
+"Mechanisms, by the network that fails",Wired Ethernet,T4 base,Masarain,,,,,,,,,,,,,,,0.32,2.21,5.17,42.22,191.24,0.35,0.99,4.32,1.49
+"Mechanisms, by the network that fails",Wired Ethernet,T4 base,Perfect foresight (bound),,,,,,,,,,,,,,,0.25,2.22,5.17,41.98,128.30,0.11,0.59,4.33,0.07

@@ -159,6 +159,27 @@ h3 { font-size: var(--step-1); line-height: 1.25; font-weight: 700; }
 .data-table tbody tr:last-child td { border-bottom: 1px solid var(--rule); }
 .stack { display: grid; gap: var(--s-5); }
 
+/* landing: headings that wrap, cells that are sentences, row names that keep their width, a second line under a
+   row name, the link-model table, the definition lists, and the CTA text */
+.data-table thead th { white-space: normal; vertical-align: bottom; text-wrap: balance; }
+.data-table th.text, .data-table td.text { text-align: left; white-space: normal; }
+.data-table td.text { font-family: var(--font-body); font-size: 0.9rem; text-wrap: pretty; }
+.data-table.named { min-width: 760px; }
+.data-table.named td:first-child { min-width: 12rem; }
+.data-table.named thead th:not(:first-child):not(.text) { width: 11%; }
+.data-table.named thead th.wide:not(:first-child) { width: 19%; }
+.data-table.named th.text:not(:first-child), .data-table.named td.text:not(:first-child),
+.data-table--models th.text:not(:first-child), .data-table--models td.text:not(:first-child) { padding-left: 14px; }
+.data-table td .sub { display: block; margin-top: 2px; font-family: var(--font-body); font-size: 0.82rem; color: var(--ink-2); }
+.data-table--models { min-width: 900px; }
+.data-table--models td { vertical-align: top; }
+.data-table--models th:nth-child(1) { width: 9%; }
+.data-table--models th:nth-child(2) { width: 27%; }
+.data-table--models th:nth-child(3) { width: 36%; }
+.data-table--models th:nth-child(4) { width: 28%; }
+h3 + .defs { margin-top: var(--s-2); }
+.cta-copy { display: grid; gap: var(--s-2); }
+
 .limits li { padding: var(--s-3) 0; border-top: 1px solid var(--rule); max-width: 78ch; }
 .limits li:last-child { border-bottom: 1px solid var(--rule); }
 .team { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--s-4) var(--s-5); }
