@@ -47,7 +47,7 @@
   <div class="wrap">
     <h1 class="display">Reference materials</h1>
     <p class="lede">This page holds the material behind the Masarain entry for the EDGE challenge of Advanced Technology Pioneers 2026.</p>
-    <p class="prose">The team submitted the application on 11 October 2026. On 4 November 2026, after a review by an industry mentor, the team set the link models from published measurements, defined six traffic classes that run alone and a model of TCP, added jitter and the time between packets to the measures of every run, and ran the simulations again. The tables on this page give the results of 4 November 2026, so several figures differ from those of the submitted deck and video. The one exception is the comparison of the prototype with the simulator, which was made on 8 October 2026 and was not repeated. The results of 8 October 2026 are kept in the records of the project.</p>
+    <p class="prose">The team submitted the application on 11 October 2026. On 4 November 2026, after a review by an industry mentor, the team set the link models from published measurements, defined six traffic classes that run alone and a model of TCP, added jitter and the time between packets to the measures of every run, and ran the simulations again. The tables on this page give the results of 4 November 2026, so several figures differ from those of the submitted deck and video. The one exception is the comparison of the prototype with the simulator, which the team made on 8 October 2026 and did not repeat. The records of the project keep the results of 8 October 2026.</p>
     <nav class="toc" aria-labelledby="toc-title">
       <h2 class="label" id="toc-title">Contents</h2>
       <ol>
@@ -57,7 +57,7 @@
         <li><a href="#networks">Networks</a><span>Each network model is measured alone, the mechanisms are compared by the network that fails, and each measured parameter is listed with its source.</span></li>
         <li><a href="#files">Data files</a><span>Four files give the tables as comma-separated text.</span></li>
         <li><a href="#method">Method in brief</a><span>This list describes the simulator, the traffic, the pairing of runs, the statistics, and the place of Masarain among the network layers.</span></li>
-        <li><a href="#field-test">Plan for the test on real networks</a><span>The plan gives the setup, the checks, and the measurement runs. The team has not run this test.</span></li>
+        <li><a href="#field-test">Plan for the test on real networks</a><span>The plan gives the setup, the checks, and the measurement runs of a test that the team has not run yet. The section also reports the one real Wi-Fi measurement made so far.</span></li>
         <li><a href="#deck">Deck and simulation</a><span>The deck with motion and the recorded simulation open from this section.</span></li>
         <li><a href="#references">References</a><span>The references of the submitted deck are listed with their addresses.</span></li>
         <li><a href="#ai">Use of AI tools</a><span>The declaration of the deck is repeated word for word.</span></li>
@@ -72,7 +72,7 @@
     <div class="section-head">
       <h2 class="display">Results by scenario</h2>
       <p class="prose muted">Eight mechanisms ran on the same link traces in six scenarios, with 30 random seeds per scenario. In the first table, each figure is a mean over the 30 runs of a scenario, and its first block weights the six scenarios equally.</p>
-      <p class="prose muted">Every result comes from the packet-level simulator or from the prototype over emulated links. No result on this page comes from a real radio network. The link models follow published measurements, but they remain models: no recorded trace is replayed, and contention and queueing on a loaded Wi-Fi network are not modeled. The <a href="index.html#limits">limits of this work</a> are listed on the overview page.</p>
+      <p class="prose muted">Every result in this section comes from the packet-level simulator or from the prototype over emulated links, and none comes from a real radio network. The one real Wi-Fi measurement of the project appears with the <a href="#real-wifi">plan for the test on real networks</a>. The link models follow published measurements, but they remain models: the results in this section replay no recorded trace, and the simulator does not model contention and queueing on a loaded Wi-Fi network. The <a href="index.html#limits">limits of this work</a> are listed on the overview page.</p>
       <nav class="subnav" aria-label="Parts of this section">
         <span>In this section</span>
         <a href="#main-comparison">Main comparison</a>
@@ -180,13 +180,13 @@
       </div>
       <h4 class="label">Definitions of the measures</h4>
       <dl class="defs">
-        <div><dt>Voice packets lost or late</dt><dd>The share of voice packets that did not arrive within 80&nbsp;ms of sending. A late packet is as useless to the listener as a lost one, so the two are counted together.</dd></div>
+        <div><dt>Voice packets lost or late</dt><dd>The share of voice packets that did not arrive within 80&nbsp;ms of sending. A late packet is as useless to the listener as a lost one, so the measure counts the two together.</dd></div>
         <div><dt>Seconds with degraded audio</dt><dd>The share of the seconds of a call in which 5% or more of the voice packets were lost or late.</dd></div>
         <div><dt>Gaps</dt><dd>Runs of consecutive lost or late voice packets that last 200&nbsp;ms or more, counted per minute of the call.</dd></div>
         <div><dt>Jitter (RFC 3550)</dt><dd>The interarrival jitter of RFC 3550, averaged over the call. For each voice packet that arrives, the change in its delay against the packet before it enters a running mean with a gain of 1/16. Lost packets do not enter it.</dd></div>
         <div><dt>Time between voice packets</dt><dd>The time from one voice packet to the next at the receiver, at the 99.9th percentile of each run. The call sends a packet every 20&nbsp;ms, and a lost packet or an outage lengthens this time, so it shows the silences that jitter does not show.</dd></div>
         <div><dt>Telemetry deadline misses</dt><dd>The share of telemetry messages that did not arrive within 250&nbsp;ms of sending.</dd></div>
-        <div><dt>Extra data sent as copies</dt><dd>The bytes of second copies and parity packets, as a percentage of the bytes of one copy of the voice and telemetry packets. Probes are not included.</dd></div>
+        <div><dt>Extra data sent as copies</dt><dd>The bytes of second copies and parity packets, as a percentage of the bytes of one copy of the voice and telemetry packets. It does not include probes.</dd></div>
         <div><dt>Keepalive probes</dt><dd>The bytes of the keepalive probes on the idle path, on the same scale.</dd></div>
         <div><dt>All data on the backup network</dt><dd>Every byte sent on the backup network (the moved call, the second copies, and the probes), on the same scale. The budget caps copies only: when the third rung of the ladder moves the call, the backup network carries all of it.</dd></div>
         <div><dt>95% interval</dt><dd>A t-interval over the 30 seeds of a scenario. For the block that covers all scenarios, the six scenarios are averaged for each seed first.</dd></div>
@@ -234,7 +234,7 @@
           </tbody>
         </table>
       </div>
-      <p class="prose muted">Removing the forecast changes loss by +0.26 ± 0.03 points at the same budget. A pulled cable or a sudden obstruction cannot be forecast. In those cases Masarain performs like reactive duplication, which is the limit of the approach.</p>
+      <p class="prose muted">Removing the forecast changes loss by +0.26 ± 0.03 points at the same budget. A pulled cable or a sudden obstruction gives no warning that a forecast could use. In those cases Masarain performs like reactive duplication, which is the limit of the approach.</p>
     </div>
 
     <div class="block">
@@ -299,7 +299,7 @@
     <div class="block">
       <h3 id="prototype">The prototype against the simulator</h3>
       <p class="prose muted">The prototype is real software: a client and a server with an encrypted packet format, real timers, and the same policy module as the simulator. A relay between them replays the simulator's link trace. It implements five of the eight mechanisms. A tethered laptop cannot see the signal readings of the 5G modem, so the prototype forecasts Wi-Fi only and reacts on 5G. The simulator runs of this comparison are set the same way: they forecast Wi-Fi only, and their signal readings carry no calibration error. The comparison covers one trace of 298&nbsp;s on the campus walk, so it checks the software against the simulator and says nothing about real radio links.</p>
-      <p class="prose muted">The prototype runs and the simulator runs beside them were made on 8 October 2026, on the link models of that day. They were not repeated with the link models of 4 November 2026, so the simulator column of this table does not come from the simulator of the other tables on this page.</p>
+      <p class="prose muted">The team made the prototype runs and the simulator runs beside them on 8 October 2026, on the link models of that day, and did not repeat them with the link models of 4 November 2026. The simulator column of this table therefore does not come from the simulator of the other tables on this page.</p>
       <div class="table-scroll table-scroll--wide" role="region" aria-labelledby="cap-xcheck" tabindex="0">
         <table class="data-table data-table--wide">
           <caption id="cap-xcheck"><span>The real prototype over emulated links against the simulator (campus walk, one 298&nbsp;s trace, link models of 8 October 2026)</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
@@ -321,7 +321,7 @@
         </table>
       </div>
       <p class="prose muted">Both sides cover the same part of the trace and use the same 80&nbsp;ms deadline. The simulator column is the mean and standard deviation over 30 runs that redraw only the per-packet random numbers, because the emulator and the simulator do not share them. Every prototype result lies within two standard deviations of the simulator.</p>
-      <p class="prose muted">Two runs in which the laptop paused were set aside and repeated. A run is set aside when the client's own sending log shows a pause of more than 0.2&nbsp;s in its 20&nbsp;ms schedule, or fewer voice packets than the schedule holds. The test reads the sending schedule and never the result, and the longest pause in a reported run was 104.5&nbsp;ms. The team added the rule on 8 October 2026, after these runs had been disturbed, so the rule was not fixed in advance.</p>
+      <p class="prose muted">The team set aside and repeated two runs in which the laptop paused. It sets a run aside when the client's own sending log shows a pause of more than 0.2&nbsp;s in its 20&nbsp;ms schedule, or fewer voice packets than the schedule holds. The test reads the sending schedule and never the result, and the longest pause in a reported run was 104.5&nbsp;ms. The team added the rule on 8 October 2026, after these runs had been disturbed, so it did not fix the rule in advance.</p>
       <div class="table-scroll table-scroll--wide" role="region" aria-labelledby="cap-aside" tabindex="0">
         <table class="data-table data-table--wide data-table--text">
           <caption id="cap-aside"><span>Runs set aside and repeated</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
@@ -351,7 +351,7 @@
       <div><dt>Times longer than three packet intervals</dt><dd>The number of times per minute that the time between packets exceeds three packet intervals, which for the voice call is 60&nbsp;ms.</dd></div>
       <div><dt>Delay variation (PDV)</dt><dd>The 99.9th percentile of the one-way delay minus its minimum, in the form of ITU-T Y.1541. It appears in the report of each network alone.</dd></div>
     </dl>
-    <p class="prose muted file-note">Over all scenarios, Masarain shows more jitter than switch after failure (5.01 against 4.81&nbsp;ms) and a shorter 99.9th percentile of the time between voice packets (51.9 against 228.9&nbsp;ms). Jitter counts only the packets that arrive, so a mechanism that saves packets over a second network with a different delay can show more jitter while it leaves fewer silences. The two measures are therefore reported together.</p>
+    <p class="prose muted file-note">Over all scenarios, Masarain shows more jitter than switch after failure (5.01 against 4.81&nbsp;ms) and a shorter 99.9th percentile of the time between voice packets (51.9 against 228.9&nbsp;ms). Jitter counts only the packets that arrive, so a mechanism that saves packets over a second network with a different delay can show more jitter while it leaves fewer silences. This page therefore reports the two measures together.</p>
   </div>
 </section>
 
@@ -359,7 +359,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2 class="display">Traffic classes</h2>
-      <p class="prose muted">Masarain reads what each flow carries and how it is transported. Only a class whose packets lose their value after a deadline gets copies on the second network. Traffic without a deadline, here streaming video and bulk data over TCP, can be moved to the other network on the third rung of the ladder, but it is never copied.</p>
+      <p class="prose muted">Masarain reads what each flow carries and which transport it uses. Only a class whose packets lose their value after a deadline gets copies on the second network. Masarain can move traffic without a deadline, here streaming video and bulk data over TCP, to the other network on the third rung of the ladder, but it never copies that traffic.</p>
       <p class="prose muted">Three of the six classes run over TCP. The simulator models a TCP flow inside the session with a retransmission timeout of at least 200&nbsp;ms, which doubles after each retransmission that fails, up to a cap of 1.6&nbsp;s that the model assumes, and with in-order delivery. Over TCP, a lost segment therefore also delays every segment behind it.</p>
     </div>
     <div class="block">
@@ -499,7 +499,7 @@
 
     <div class="block">
       <h3 id="links">Each network alone</h3>
-      <p class="prose muted">A probe sends one voice stream of 50 packets per second over one network, with no second path and no mechanism, and records what a measurement tool would see. These figures describe the link models themselves, so that they can be set beside public measurements of real networks. The probe measures one direction, so the round-trip time is twice the median one-way delay.</p>
+      <p class="prose muted">A probe sends one voice stream of 50 packets per second over one network, with no second path and no mechanism, and records what a measurement tool would see. These figures describe the link models themselves, so that a reader can set them beside public measurements of real networks. The probe measures one direction, so the round-trip time is twice the median one-way delay.</p>
       <div class="table-scroll table-scroll--wide" role="region" aria-labelledby="cap-links-delay" tabindex="0">
         <table class="data-table data-table--blocks data-table--wide">
           <caption id="cap-links-delay"><span>Each network alone: delay and jitter, mean over the runs of each scenario</span><span class="scroll-hint">Scroll sideways to see every column.</span></caption>
@@ -652,7 +652,7 @@
             <tr class="reason"><th scope="row">Interruption of the data path at a handover</th><td>60&nbsp;ms</td><td><a href="https://ranger.uta.edu/~jmeng/pubs/imc23-driving.pdf" rel="noopener noreferrer">Performance of Cellular Networks on the Wheels</a>, ACM IMC 2023.</td></tr>
             <tr class="reason"><th scope="row">Share of handovers that fail</th><td>0.4%</td><td><a href="https://arxiv.org/pdf/2411.19586" rel="noopener noreferrer">Through the Telco Lens: A Countrywide Empirical Study of Cellular Handovers</a>, ACM IMC 2024.</td></tr>
             <tr class="reason"><th scope="row">One-way delay to a cloud server while moving</th><td>32&nbsp;ms</td><td><a href="https://ranger.uta.edu/~jmeng/pubs/imc23-driving.pdf" rel="noopener noreferrer">Performance of Cellular Networks on the Wheels</a>, ACM IMC 2023. The source reports the round-trip time while driving; the simulator uses half of it.</td></tr>
-            <tr class="reason"><th scope="row">Standard deviation of the one-way delay</th><td>8&nbsp;ms</td><td><a href="https://ranger.uta.edu/~jmeng/pubs/imc23-driving.pdf" rel="noopener noreferrer">Performance of Cellular Networks on the Wheels</a>, ACM IMC 2023. Derived from the spread of the round-trip time in the source, divided by the square root of two.</td></tr>
+            <tr class="reason"><th scope="row">Standard deviation of the one-way delay</th><td>8&nbsp;ms</td><td><a href="https://ranger.uta.edu/~jmeng/pubs/imc23-driving.pdf" rel="noopener noreferrer">Performance of Cellular Networks on the Wheels</a>, ACM IMC 2023. The value is the spread of the round-trip time in the source, divided by the square root of two.</td></tr>
             <tr class="reason"><th scope="row">Loss just before a handover</th><td>0.67%</td><td><a href="https://www-users.cse.umn.edu/~fengqian/paper/5g_mobility_sigcomm22.pdf" rel="noopener noreferrer">Vivisecting Mobility Management in 5G Cellular Networks</a>, ACM SIGCOMM 2022. The source reports how much the loss rises near a handover.</td></tr>
             <tr class="reason"><th scope="row">Extra delay just before a handover</th><td>40&nbsp;ms</td><td><a href="https://www-users.cse.umn.edu/~fengqian/paper/5g_mobility_sigcomm22.pdf" rel="noopener noreferrer">Vivisecting Mobility Management in 5G Cellular Networks</a>, ACM SIGCOMM 2022. The source reports how much the delay rises near a handover.</td></tr>
           </tbody>
@@ -663,7 +663,7 @@
             <tr class="reason"><th scope="row">Peak extra one-way delay at a reconfiguration</th><td>74&nbsp;ms</td><td><a href="https://arxiv.org/html/2601.08439v1" rel="noopener noreferrer">Statistical Characterization and Prediction of E2E Latency over LEO Satellite Networks</a>, arXiv 2601.08439, 2026 (preprint). The independent check found that the source reports this delay spike for the uplink only.</td></tr>
             <tr class="reason"><th scope="row">Disturbed window around a reconfiguration</th><td>75&nbsp;ms before to 140&nbsp;ms after</td><td><a href="https://arxiv.org/html/2601.08439v1" rel="noopener noreferrer">Statistical Characterization and Prediction of E2E Latency over LEO Satellite Networks</a>, arXiv 2601.08439, 2026 (preprint). The independent check found that the source reports this delay spike for the uplink only.</td></tr>
             <tr class="reason"><th scope="row">One-way delay to a server while moving</th><td>29&nbsp;ms</td><td><a href="https://arxiv.org/html/2512.19639v2" rel="noopener noreferrer">Towards Reliable Connectivity: Measurement-Driven Assessment of Starlink and OneWeb Non-Terrestrial and 5G Terrestrial Networks</a>, IEEE Open Journal of the Communications Society 2026 (arXiv 2512.19639v2).</td></tr>
-            <tr class="reason"><th scope="row">Standard deviation of the one-way delay</th><td>5&nbsp;ms</td><td><a href="https://arxiv.org/html/2402.16448v2" rel="noopener noreferrer">WetLinks: a Large-Scale Longitudinal Starlink Dataset with Contiguous Weather Data</a>, TMA 2024. Derived from the spread of the round-trip time in the source, divided by the square root of two.</td></tr>
+            <tr class="reason"><th scope="row">Standard deviation of the one-way delay</th><td>5&nbsp;ms</td><td><a href="https://arxiv.org/html/2402.16448v2" rel="noopener noreferrer">WetLinks: a Large-Scale Longitudinal Starlink Dataset with Contiguous Weather Data</a>, TMA 2024. The value is the spread of the round-trip time in the source, divided by the square root of two.</td></tr>
             <tr class="reason"><th scope="row">Random loss, stationary</th><td>0.4%</td><td><a href="https://research.dial.uclouvain.be/bitstreams/4823fc83-2489-4cba-b536-aeeb27042bf7/download" rel="noopener noreferrer">A First Look at Starlink Performance</a>, ACM IMC 2022.</td></tr>
             <tr class="reason"><th scope="row">Random loss in motion</th><td>0.4%</td><td><a href="https://research.dial.uclouvain.be/bitstreams/4823fc83-2489-4cba-b536-aeeb27042bf7/download" rel="noopener noreferrer">A First Look at Starlink Performance</a>, ACM IMC 2022; <a href="https://arxiv.org/html/2403.13497v1" rel="noopener noreferrer">Starlink on the Road: A First Look at Mobile Starlink Performance in Central Europe</a>, TMA 2024. The higher loss in motion of the second source includes obstructions, which the simulator draws separately.</td></tr>
             <tr class="reason"><th scope="row">Obstructions of a vehicle terminal</th><td>1.25&nbsp;per minute</td><td><a href="https://arxiv.org/html/2601.13790v1" rel="noopener noreferrer">Demystifying Starlink Network Performance under Vehicular Mobility with Dynamic Beam Switching</a>, arXiv 2601.13790, 2026 (preprint). The source gives the share of time lost to obstructions; the split into a rate and a mean length is the team's choice.</td></tr>
@@ -725,7 +725,11 @@
   <div class="wrap">
     <div class="section-head">
       <h2 class="display">Plan for the test on real networks</h2>
-      <p class="prose">The team has not run this test. It used emulated links for the submission and prepared the plan below as the next step.</p>
+      <p class="prose">The team has not yet run this test of the prototype on two real networks. It used emulated links for the submission and prepared the plan below as the next step. One real measurement exists so far: a single Wi-Fi drop, reported first.</p>
+    </div>
+    <div class="block">
+      <h3 id="real-wifi">First real measurement: one Wi-Fi drop from a Linux virtual machine</h3>
+      <p class="prose muted">A CyberOps Workstation virtual machine (Linux) in VirtualBox, bridged to the laptop's Wi-Fi card, sent an ICMP echo to the access point (a phone hotspot) about every 22&nbsp;ms while a team member carried the laptop out of coverage. Over a window of 40&nbsp;s, the probe measured a median round-trip time of 3.8&nbsp;ms, an RFC&nbsp;3550 jitter of 3.8&nbsp;ms computed on half the round trip, and one outage of 24.4&nbsp;s. The simulator then replayed the measured link through the same engine and policy code, with its own 5G model as the backup, over ten random draws. Switch after failure lost 5.35% of the voice, Masarain 0.37% for 4% extra data, and full redundancy 0.28% for 38%. Signal-threshold duplication tied with Masarain on this trace, so the forecast gave no gain over a fixed threshold here. This is one drop on one network: the backup is modeled, the team measured no real 5G link, and the prototype did not take part, so the test does not replace the plan below. The procedure is written down in VM_WIFI_TEST.md, which comes with the source code.</p>
     </div>
     <div class="block">
       <dl class="defs defs--plain">
@@ -769,7 +773,7 @@
       </div>
       <div id="simulation">
         <h3>The recorded simulation</h3>
-        <p class="muted">The simulation page replays four recorded runs of the prototype over emulated links, one for each route. In each run, switch after failure and Masarain carry the same voice call at the same time. The runs were recorded on 8 October 2026, on the link models of that day, and were not repeated with the link models of 4 November 2026.</p>
+        <p class="muted">The simulation page replays four recorded runs of the prototype over emulated links, one for each route. In each run, switch after failure and Masarain carry the same voice call at the same time. The team recorded the runs on 8 October 2026, on the link models of that day, and did not repeat them with the link models of 4 November 2026.</p>
         <p class="link-row"><a class="btn btn--quiet" href="simulation.html">Open the simulation</a></p>
       </div>
     </div>

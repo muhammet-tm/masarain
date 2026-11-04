@@ -466,7 +466,7 @@ html.show-grid .sheet::after{content:"";position:absolute;left:32px;top:32px;wid
   <p class="small abs" data-build="text" data-order="42" style="left:1564px;top:858px;width:300px">median warning the forecaster gives before Wi-Fi coverage is lost (simulation)</p>
 
   
-  <p class="text on-orange abs" data-build="text" data-order="39" style="left:56px;top:288px;width:1112px"><b>Voice packets lost or late in the simulator:</b> switch after failure against Masarain (mean of six scenarios, 30 runs each)</p>
+  <p class="text on-orange abs" data-build="text" data-order="39" style="left:56px;top:288px;width:1112px"><b>Voice packets lost or late, simulation:</b> switch after failure against Masarain (six scenarios, 30 runs)</p>
 
   
   <i class="bar on-orange" data-build="plot" data-order="20" style="left:56px;top:448px;width:1112px;height:24px"></i>
@@ -592,7 +592,7 @@ html.show-grid .sheet::after{content:"";position:absolute;left:32px;top:32px;wid
       <tr data-build="text"><td>2</td><td>Multipath<br>scheduling</td><td>Lowest-RTT scheduler of Multipath<br>TCP (MPTCP) and of multipath QUIC</td><td><b>After</b> a loss or timeout<br>on the active path</td><td>None</td><td>Packets in flight are lost<br>or late at every break</td></tr>
       <tr data-build="text"><td>3</td><td>Always-on<br>redundancy</td><td>ReMP TCP, 3GPP ATSSS redundant steering<br>in its basic form, SD-WAN duplication</td><td><b>Always</b></td><td>Up to 100%</td><td>Keeps a full copy of the call<br>on a metered backup</td></tr>
       <tr data-build="text"><td>4</td><td>On-demand<br>duplication</td><td>SD-WAN products;<br>threshold-triggered partial duplication</td><td><b>After</b> measured loss or a<br>signal threshold is crossed</td><td>Moderate</td><td>The first burst is lost; a fixed<br>threshold ignores the trend</td></tr>
-      <tr data-build="text"><td>5</td><td>Adaptive error<br>correction</td><td>Parity packets sized to measured loss<br>on multipath QUIC</td><td><b>After</b> loss is measured</td><td>About 6% reported;<br>8% in our runs</td><td>Sized to average loss;<br>burst loss is not modeled</td></tr>
+      <tr data-build="text"><td>5</td><td>Adaptive error<br>correction</td><td>Parity packets sized to measured loss<br>on multipath QUIC</td><td><b>After</b> loss is measured</td><td>6% reported;<br>8% here</td><td>Sized to average loss;<br>burst loss is not modeled</td></tr>
       <tr data-build="text"><td>6</td><td>Forecast-triggered<br>duplication</td><td>Studies of 5G conditional handover,<br>inside the operator&rsquo;s network</td><td><b>Before</b> a predicted<br>degradation</td><td>Low</td><td>One technology,<br>needs the operator</td></tr>
       <tr data-build="text"><td>7</td><td>Schedule-aware<br>steering</td><td>Media over multipath QUIC on Starlink</td><td><b>Before</b> each 15&nbsp;s<br>reconfiguration</td><td>None</td><td>Satellite only,<br>moves rather than copies</td></tr>
     </tbody>
@@ -732,7 +732,7 @@ html.show-grid .sheet::after{content:"";position:absolute;left:32px;top:32px;wid
 
   
   <h1 class="headline headline--s blk" style="--c:1;--r:1;--cs:6;--dy:-3px">Masarain copies a packet that has a deadline only when a forecast or a detected loss flags the link</h1>
-  <p class="small abs" data-build="text" style="left:1448px;top:56px;width:416px">Every level is a setting, loaded from a profile. A metered satellite backup can copy only from 10% risk with a 10% budget; a mission-critical link from 2% with 40%. The results use the default profile.</p>
+  <p class="small abs" data-build="text" style="left:1448px;top:56px;width:416px">Every level is a setting, loaded from a profile. A metered backup can copy only from 10% risk with a 10% budget; a mission-critical link from 2% with 40%. Both are untested starting points; the results use the default profile.</p>
 
   
   <svg class="dwg" viewBox="0 0 1920 1080" aria-hidden="true">
@@ -939,7 +939,7 @@ html.show-grid .sheet::after{content:"";position:absolute;left:32px;top:32px;wid
   
   <h2 class="text label abs" data-build="text" data-stagger="30" style="left:1216px;top:56px">Security</h2>
   <ul class="dlist text abs" data-build="text" data-stagger="30" style="left:1216px;top:96px;width:648px">
-    <li>Every packet is authenticated, and encrypted in every reported run; the server rejects replays and stale timestamps.</li>
+    <li>Every packet is authenticated and encrypted; the server rejects replays and stale timestamps.</li>
     <li>The client accepts an acknowledgment only for its own session, path, and send time.</li>
     <li>The budget caps how much traffic a forged risk signal could make the device send.</li>
   </ul>
@@ -1229,7 +1229,7 @@ html.show-grid .sheet::after{content:"";position:absolute;left:32px;top:32px;wid
     <p data-build="text" data-stagger="40">A relay between them replays the simulator&rsquo;s link traces: it drops and delays each packet as the trace says and reports the <span class="nowrap">Wi-Fi</span> signal the device would measure.</p>
     <p data-build="text" data-stagger="40">Two clients run at once through the same relay, so an existing mechanism and Masarain meet identical conditions; a live page shows both calls side by side.</p>
     <p data-build="text" data-stagger="40">Running five of the eight mechanisms this way checked the simulator of 8&nbsp;October against real sockets and scheduling.</p>
-    <p data-build="text" data-stagger="40"><b>First real test (4 November):</b> a Linux VM on the laptop probed a real <span class="nowrap">Wi-Fi</span> link every 22&nbsp;ms while walking out of coverage. Replayed with the 5G model, one path lost 5.35% and Masarain 0.37%, with 4% extra data.</p>
+    <p data-build="text" data-stagger="40"><b>First real test (4 November):</b> a Linux VM on the laptop probed a real <span class="nowrap">Wi-Fi</span> link every 22&nbsp;ms while a team member carried the laptop out of coverage. Replayed with the 5G model, one path lost 5.35% and Masarain 0.37%, with 4% extra data.</p>
   </div>
 <div class="chrome" aria-hidden="true"><div class="strip"><div class="strip-cell strip-logo"><svg viewBox="0 0 641 94" role="img" aria-label="Masarain"><use href="#logo" width="641" height="94"/></svg></div><div class="strip-cell strip-title"><span class="strip-k">TITLE</span><span class="strip-v">Experimental method</span></div><div class="strip-cell strip-event">Advanced Technology Pioneers 2026, EDGE challenge</div><div class="strip-cell strip-team"><span class="strip-k">TEAM</span><span class="strip-v">Muhammet Yalkapov (team lead), Sulaymon Sadullo, Ahmed Mohamed Almheiri</span></div><div class="strip-cell strip-univ">Abu Dhabi University</div><div class="strip-cell strip-date">4 November 2026</div><div class="strip-cell strip-sheet"><span class="strip-k">SHEET</span><span class="strip-n">8 / 12</span></div></div><svg class="frame" viewBox="0 0 1920 1080" width="1920" height="1080"><rect class="frame-line" x="33" y="33" width="1854" height="1014"/><path class="frame-tick" d="M264.5 20V32M264.5 1048V1060M496.5 20V32M496.5 1048V1060M728.5 20V32M728.5 1048V1060M960.5 20V32M960.5 1048V1060M1192.5 20V32M1192.5 1048V1060M1424.5 20V32M1424.5 1048V1060M1656.5 20V32M1656.5 1048V1060M20 264.5H32M1888 264.5H1900M20 496.5H32M1888 496.5H1900M20 728.5H32M1888 728.5H1900M20 960.5H32M1888 960.5H1900"/><g class="frame-zone"><text x="148" y="23">1</text><text x="148" y="1071">1</text><text x="380" y="23">2</text><text x="380" y="1071">2</text><text x="612" y="23">3</text><text x="612" y="1071">3</text><text x="844" y="23">4</text><text x="844" y="1071">4</text><text x="1076" y="23">5</text><text x="1076" y="1071">5</text><text x="1308" y="23">6</text><text x="1308" y="1071">6</text><text x="1540" y="23">7</text><text x="1540" y="1071">7</text><text x="1772" y="23">8</text><text x="1772" y="1071">8</text><text x="16" y="155">A</text><text x="1904" y="155">A</text><text x="16" y="387">B</text><text x="1904" y="387">B</text><text x="16" y="619">C</text><text x="1904" y="619">C</text><text x="16" y="851">D</text><text x="1904" y="851">D</text></g></svg></div>
 </section>
@@ -1526,7 +1526,7 @@ html.show-grid .sheet::after{content:"";position:absolute;left:32px;top:32px;wid
   <h2 class="display on-black abs" data-build="text" style="left:1216px;top:56px;--size:44px">LIMITS OF THIS WORK</h2>
   <i class="rule rule--2 on-black" data-build="plot" style="left:1216px;top:112px;width:648px"></i>
   <ul class="dlist small on-black abs s11-lim" style="left:1216px;top:128px;width:648px">
-    <li data-build="text">The link models follow public measurements, but they are models: no recorded trace is replayed yet, and Wi-Fi contention and queueing under load are not modeled.</li>
+    <li data-build="text">The link models follow public measurements, but they are models: only one recorded Wi-Fi trace is replayed so far, and Wi-Fi contention and queueing under load are not modeled.</li>
     <li data-build="text">A fixed signal threshold inside the same ladder captures most of the gain; the forecast adds a smaller margin.</li>
     <li data-build="text">The 5G forecast needs the modem&rsquo;s signal readings. A tethered laptop cannot see them, so the prototype forecasts <span class="nowrap">Wi-Fi</span> only and reacts on 5G.</li>
     <li data-build="text">No satellite terminal was available, so the satellite results are simulation only.</li>
