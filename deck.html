@@ -416,7 +416,8 @@ html.still .pre{opacity:1!important}
 #s08 .dwg .s08-on-call{stroke:var(--ink-3)}
 #s08 .dwg .s08-run{fill:var(--ink);stroke:none}
 #s08 .s08-list p+p{margin-top:10px}
-#s08 .s08-real .pip{margin-right:6px}
+#s08 .s08-real .pip,#s08 .s08-live .pip{margin-right:6px}
+#s08 .s08-live p+p{margin-top:8px}
 #s08 .s08-gap{margin-top:10px}
 #s09 .s09-dk{fill:var(--ink);stroke:var(--ground);stroke-width:1.5}
 #s09 .s09-dg{fill:var(--ink-3);stroke:var(--ground);stroke-width:1.5}
@@ -1241,18 +1242,16 @@ html.still .pre{opacity:1!important}
 
   
   <i class="rule" data-build="plot" style="left:984px;top:264px;width:416px"></i>
-  <h2 class="text label abs" data-build="text" data-stagger="40" style="left:984px;top:280px">Simulator</h2>
-  <div class="small abs s08-list" style="left:984px;top:320px;width:416px">
-    <p data-build="text" data-stagger="40">Packet-level engine on a 10&nbsp;ms link grid, written for this project. Each class runs over UDP or TCP; TCP retransmits after a timeout of at least 200&nbsp;ms and delivers in order.</p>
-    <p data-build="text" data-stagger="40"><b><span class="nowrap">Wi-Fi:</span></b> log-distance path loss, correlated shadowing, roaming, and association loss.</p>
-    <p data-build="text" data-stagger="40"><b>5G:</b> signal-triggered handovers with a short interruption and occasional failures; coverage holes on the rural road.</p>
-    <p data-build="text" data-stagger="40"><b>Satellite, modeled on Starlink:</b> a delay spike at each 15&nbsp;s reconfiguration, random loss, and obstructions.</p>
-    <p data-build="text" data-stagger="40">Each parameter carries its public source in the code (sheet&nbsp;7), or is marked as assumed.</p>
+  <div class="small abs s08-list" style="left:984px;top:280px;width:416px">
+    <p data-build="text" data-stagger="40"><b>Simulator:</b> a packet-level engine on a 10&nbsp;ms link grid, written for this project. Each class runs over UDP or TCP; TCP retransmits after a timeout of at least 200&nbsp;ms and delivers in order.</p>
+    <p data-build="text" data-stagger="40"><b><span class="nowrap">Wi-Fi,</span> 5G, and satellite models</b> take each parameter from a public source or mark it as assumed (sheet&nbsp;7). Ablation, cost-curve, and sensitivity runs test each part; the copy price was tuned on separate seeds.</p>
   </div>
-  <i class="rule" data-build="plot" style="left:984px;top:728px;width:416px"></i>
-  <div class="small abs s08-list" style="left:984px;top:744px;width:416px">
-    <p data-build="text" data-stagger="40">Ablation, cost-curve, and sensitivity runs test each part; the copy price was tuned on separate seeds.</p>
-    <p data-build="text" data-stagger="40"><b>The forecaster is also tested on its own:</b> we count how many real disruptions it flags in advance, how early, and how many of its alarms are false.</p>
+  <i class="rule" data-build="plot" style="left:984px;top:540px;width:416px"></i>
+  <h2 class="text label abs" data-build="text" data-stagger="40" style="left:984px;top:554px;width:416px">First live runs over two real paths, 9&nbsp;November</h2>
+  <div class="small abs s08-list s08-live" style="left:984px;top:626px;width:416px">
+    <p data-build="text" data-stagger="40"><span class="pip pip--meas">live</span> n&nbsp;=&nbsp;1 each, encrypted: switch after failure and <span class="c-call">Masarain</span> side by side, laptop to an Android phone running our server. Path&nbsp;A: <span class="nowrap">Wi-Fi</span> via an iPhone hotspot; path&nbsp;B: a USB cable standing in for 5G.</p>
+    <p data-build="text" data-stagger="40"><b>Hotspot off:</b> 1,620 against 40&nbsp;ms; a stall at 5.6&nbsp;s had already moved <span class="c-call">Masarain</span>&rsquo;s call to the USB path.</p>
+    <p data-build="text" data-stagger="40"><b>Tin fade:</b> 1,600 against 60&nbsp;ms; <span class="c-call">Masarain</span> moved 2.8&nbsp;s before <span class="nowrap">Wi-Fi</span> went silent. Windows reported it down 7.3 to 7.4&nbsp;s after the cut.</p>
   </div>
 
   
@@ -1569,7 +1568,7 @@ html.still .pre{opacity:1!important}
     <li data-build="text">The budget caps copies only: when rung&nbsp;3 moves the call, the backup carries all of it. Averaged over the scenarios, Masarain sends 56% of one copy of the call on the backup path, probes included; full redundancy sends 98%.</li>
     <li data-build="text">The TCP model is simple: one segment per interval, retransmission after the timeout with backoff, and in-order delivery; congestion control and QUIC are not modeled.</li>
     <li data-build="text">One user and two paths were studied; many users sharing a cell or an access point were not. All traffic passes one relay server, and probes every 100&nbsp;ms keep both radios awake; battery use was not measured.</li>
-    <li data-build="text">The real test was one Wi-Fi drop, probed by a single-path ping and replayed with a modeled 5G backup; no two-path call has run over real radios yet.</li>
+    <li data-build="text">The real tests were one Wi-Fi drop, probed by a single-path ping and replayed with a modeled 5G backup, and two live runs over two real paths (<span class="nowrap">Wi-Fi</span> and a USB cable standing in for 5G), one run each; no real 5G or satellite run and no repeated series yet.</li>
   </ul>
 <div class="chrome" aria-hidden="true"><div class="strip"><div class="strip-cell strip-logo"><svg viewBox="0 0 641 94" role="img" aria-label="Masarain"><use href="#logo" width="641" height="94"/></svg></div><div class="strip-cell strip-title"><span class="strip-k">TITLE</span><span class="strip-v">Guidelines and limits</span></div><div class="strip-cell strip-event">Advanced Technology Pioneers 2026, EDGE challenge</div><div class="strip-cell strip-team"><span class="strip-k">TEAM</span><span class="strip-v">Muhammet Yalkapov (team lead), Sulaymon Sadullo, Ahmed Mohamed Almheiri</span></div><div class="strip-cell strip-univ">Abu Dhabi University</div><div class="strip-cell strip-date">9 November 2026</div><div class="strip-cell strip-sheet"><span class="strip-k">SHEET</span><span class="strip-n">11 / 12</span></div></div><svg class="frame" viewBox="0 0 1920 1080" width="1920" height="1080"><rect class="frame-line" x="33" y="33" width="1854" height="1014"/><path class="frame-tick" d="M264.5 20V32M264.5 1048V1060M496.5 20V32M496.5 1048V1060M728.5 20V32M728.5 1048V1060M960.5 20V32M960.5 1048V1060M1192.5 20V32M1192.5 1048V1060M1424.5 20V32M1424.5 1048V1060M1656.5 20V32M1656.5 1048V1060M20 264.5H32M1888 264.5H1900M20 496.5H32M1888 496.5H1900M20 728.5H32M1888 728.5H1900M20 960.5H32M1888 960.5H1900"/><g class="frame-zone"><text x="148" y="23">1</text><text x="148" y="1071">1</text><text x="380" y="23">2</text><text x="380" y="1071">2</text><text x="612" y="23">3</text><text x="612" y="1071">3</text><text x="844" y="23">4</text><text x="844" y="1071">4</text><text x="1076" y="23">5</text><text x="1076" y="1071">5</text><text x="1308" y="23">6</text><text x="1308" y="1071">6</text><text x="1540" y="23">7</text><text x="1540" y="1071">7</text><text x="1772" y="23">8</text><text x="1772" y="1071">8</text><text x="16" y="155">A</text><text x="1904" y="155">A</text><text x="16" y="387">B</text><text x="1904" y="387">B</text><text x="16" y="619">C</text><text x="1904" y="619">C</text><text x="16" y="851">D</text><text x="1904" y="851">D</text></g></svg></div>
 </section>
