@@ -10,39 +10,36 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/brand/favicon-180.png">
 <link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/site.css">
-<style>
-/* Rules of this page only, written with the tokens of site.css. The contents hold more entries than the eight that
-   site.css lays out, so the first column takes the first half of them. The tables of blocks share their width freely,
-   and the heading of a column of sentences in a block row stands on the left, as in a table head. */
-.toc ol { grid-template-rows: repeat(6, auto); }
-.toc li:nth-child(5) { border-top: 0; }
-.toc li:nth-child(7) { border-top: 1px solid var(--rule); }
-.materials .data-table--blocks tr.group th:nth-child(n+2) { width: auto; }
-.materials .data-table tr.group th.text { text-align: left; }
-.materials .data-table--sources tr.reason td:last-child { width: 56%; }
-.materials .data-table--sources tbody th[scope="row"] { white-space: normal; }
-.materials .data-table--sources tbody th, .materials .data-table--sources td { vertical-align: top; }
-@media (max-width: 899px) {
-  .toc ol { grid-template-rows: none; }
-  .toc li:nth-child(7) { border-top: 0; }
-}
-</style>
+<link rel="stylesheet" href="assets/site_v2.css">
 </head>
 <body>
 
-<header class="wrap site-header">
-  <a class="wordmark" href="index.html"><img src="assets/brand/logo-on-dark.svg" alt="Masarain" width="232" height="34"></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="index.html">Overview</a>
-    <a href="index.html#method">Method</a>
-    <a href="index.html#results">Results</a>
-    <a href="materials.html" aria-current="page">Materials</a>
-    <a class="btn" href="simulation.html">Open the simulation</a>
-  </nav>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/brand/logo-on-dark.svg" alt="Masarain" width="641" height="94"></a>
+    <nav class="nav-links" aria-label="Site">
+      <a href="index.html#capture">Real test</a>
+      <a href="index.html#results">Results</a>
+      <a href="index.html#method">Method</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#limits">Limits</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#files">Files</a>
+    </nav>
+    <details class="menu">
+      <summary>Menu</summary>
+      <nav aria-label="Site">
+        <a href="index.html#capture">Real test</a><a href="index.html#results">Results</a><a href="index.html#method">Method</a><a href="index.html#how">How it works</a>
+        <a href="index.html#limits">Limits</a><a href="index.html#team">Team</a><a href="index.html#files">Files</a><a href="simulation.html">Open the simulation</a>
+      </nav>
+    </details>
+    <a class="btn btn--ink nav-cta" href="simulation.html">Open the simulation</a>
+  </div>
 </header>
 
-<main class="materials">
+<main class="materials" id="main">
 <section class="page-head">
   <div class="wrap">
     <h1 class="display">Reference materials</h1>
@@ -694,7 +691,7 @@
       <h2 class="display">Data files</h2>
       <p class="prose muted">Four files hold the figures of the tables on this page in a form that a spreadsheet or a script can read. The ablation file also gives each scenario, which the table above does not, and the file of the traffic classes also gives each class by the network that fails. All are plain comma-separated text with one header row.</p>
     </div>
-    <ul class="limits files">
+    <ul class="mat-list mat-files">
       <li><a class="text-link" href="files/masarain_main_comparison.csv" download>masarain_main_comparison.csv</a><span class="muted">56 rows: every mechanism in every scenario, and the means over all scenarios. Each of the nine measures is followed by its interval, and the last column gives all data on the backup network.</span></li>
       <li><a class="text-link" href="files/masarain_ablation.csv" download>masarain_ablation.csv</a><span class="muted">63 rows: the nine variants of Masarain in every scenario and over all scenarios, with the same measures and the paired change in voice loss against the full design. The two change columns are empty for the full design, which is the reference.</span></li>
       <li><a class="text-link" href="files/masarain_traffic_classes.csv" download>masarain_traffic_classes.csv</a><span class="muted">240 rows: each traffic class alone, with every mechanism, over all scenarios and by the network that fails. The columns of the measures of experience are empty for the classes that they do not apply to.</span></li>
@@ -769,12 +766,12 @@
       <div>
         <h3>The deck with motion</h3>
         <p class="muted">This version shows the 12 sheets of the deck with motion added. The team revised the deck on 4 November 2026 with the results of that day, so it differs from the deck of the application submitted on 11 October 2026. To move forward, press the Right arrow key or click the sheet. To move back, press the Left arrow key.</p>
-        <p class="link-row"><a class="btn btn--quiet" href="deck.html">Open the deck with motion</a></p>
+        <p class="link-row"><a class="btn btn--line" href="deck.html">Open the deck with motion</a></p>
       </div>
       <div id="simulation">
         <h3>The recorded simulation</h3>
         <p class="muted">The simulation page replays four recorded runs of the prototype over emulated links, one for each route. In each run, switch after failure and Masarain carry the same voice call at the same time. The team recorded the runs on 8 October 2026, on the link models of that day, and did not repeat them with the link models of 4 November 2026.</p>
-        <p class="link-row"><a class="btn btn--quiet" href="simulation.html">Open the simulation</a></p>
+        <p class="link-row"><a class="btn btn--line" href="simulation.html">Open the simulation</a></p>
       </div>
     </div>
   </div>
@@ -786,7 +783,7 @@
       <h2 class="display">References</h2>
       <p class="prose muted">These are the 11 references of the deck that the team submitted on 11 October 2026, numbered and worded as on its slide 10. Each address was checked against its citation on 13 October 2026, on the page itself or in the record of its digital object identifier (DOI). The sources of the link models are listed with the <a href="#link-models">measured link models</a>.</p>
     </div>
-    <ol class="limits refs">
+    <ol class="mat-list mat-refs">
       <li id="ref-1">[1] A. Ford et al., "TCP extensions for multipath operation with multiple addresses," RFC 8684, 2020.<a href="https://www.rfc-editor.org/info/rfc8684" rel="noopener noreferrer">https://www.rfc-editor.org/info/rfc8684</a></li>
       <li id="ref-2">[2] C. Paasch et al., "Experimental evaluation of multipath TCP schedulers," ACM SIGCOMM CSWS, 2014.<a href="https://doi.org/10.1145/2630088.2631977" rel="noopener noreferrer">https://doi.org/10.1145/2630088.2631977</a></li>
       <li id="ref-3">[3] A. Frömmgen et al., "ReMP TCP: Low latency multipath TCP," IEEE ICC, 2016.<a href="https://doi.org/10.1109/ICC.2016.7510787" rel="noopener noreferrer">https://doi.org/10.1109/ICC.2016.7510787</a></li>
@@ -822,9 +819,19 @@
 </section>
 </main>
 
-<footer class="wrap site-footer">
-  <p>Masarain (<span lang="ar" dir="rtl">مسارين</span>) is Arabic for "two paths". Entry for Advanced Technology Pioneers 2026, EDGE challenge.</p>
-  <p>Declaration of AI use: Anthropic's Claude (Claude Code) implemented the simulator and the prototype and ran the analysis. The team chose the challenge, the approach, and the name, and it is responsible for the literature search, the design of the mechanism, and the submission.</p>
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <div class="foot-name"><img src="assets/brand/logo-on-dark.svg" alt="Masarain" width="641" height="94"><span class="ar" lang="ar" dir="rtl">مسارين</span></div>
+      <p class="slogan">Two paths, one call.</p>
+    </div>
+    <div>
+      <p class="foot-links"><a href="simulation.html">Simulation</a><a href="materials.html">Reference materials</a><a href="deck.html">Deck</a></p>
+      <p>Masarain (<span lang="ar" dir="rtl">مسارين</span>) is Arabic for "two paths". Entry for Advanced Technology Pioneers 2026, EDGE challenge.</p>
+      <p>Declaration of AI use: Anthropic's Claude (Claude Code) implemented the simulator and the prototype and ran the analysis. The team chose the challenge, the approach, and the name, and it is responsible for the literature search, the design of the mechanism, and the submission.</p>
+      <p>The fonts are under the SIL Open Font License; anime.js is under the MIT License (<a href="assets/vendor/anime-LICENSE.txt">notice</a>).</p>
+    </div>
+  </div>
 </footer>
 
 </body>
